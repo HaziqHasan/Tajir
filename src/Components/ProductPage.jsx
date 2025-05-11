@@ -4,30 +4,47 @@ import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup, Radio } from '@headlessui/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination, Thumbs } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/thumbs'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
 export default function ProductPage() {
-  const { state } = useLocation()
-  const product = state?.product
+  const { state } = useLocation();
+  const product = state?.product;
 
-  // Handle missing product
   if (!product) {
     return (
       <div className="p-10 text-center text-xl font-semibold text-red-600">
         Product not found. Please go back and select a product.
       </div>
-    )
+    );
   }
 
-  const reviews = { href: '/productpage', average: 4, totalCount: 117 }
+  // Provide defaults for missing data
+  const reviews = { href: '#', average: 4, totalCount: 117 };
+  const colors = product.colors || [{ name: 'Default', class: 'bg-gray-200', selectedClass: 'ring-gray-400' }];
+  const sizes = product.sizes || [{ name: 'One Size', inStock: true }];
+  const images = product.images || [{ src: product.imageSrc, alt: product.imageAlt }];
+  const breadcrumbs = product.breadcrumbs || [
+    { id: 1, name: 'Home', href: '/' },
+    { id: 2, name: 'Products', href: '/' },
+  ];
+  const highlights = product.highlights || ['Premium quality', 'Great value'];
+  const description = product.description || 'A high-quality product with excellent craftsmanship.';
+  const details = product.details || 'Designed for durability and style.';
 
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(
-    product.sizes.find((size) => size.inStock) || product.sizes[0]
-  )
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const [selectedSize, setSelectedSize] = useState(sizes.find((size) => size.inStock) || sizes[0]);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+
+  // Rest of your component...
 
   return (
     <div className="bg-white">
@@ -55,15 +72,76 @@ export default function ProductPage() {
           </ol>
         </nav>
 
-        {/* Image gallery */}
-        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <img src={product.images[0].src} alt={product.images[0].alt} className="hidden w-full rounded-lg object-cover lg:block" />
-          <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img src={product.images[1].src} alt={product.images[1].alt} className="w-full rounded-lg object-cover" />
-            <img src={product.images[2].src} alt={product.images[2].alt} className="w-full rounded-lg object-cover" />
-          </div>
-          <img src={product.images[3].src} alt={product.images[3].alt} className="w-full rounded-lg object-cover" />
+        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8">
+          {/* Main slider */}
+          <Swiper
+            modules={[Navigation, Pagination, Thumbs]}
+            navigation
+            pagination={{ clickable: true }}
+            thumbs={{ swiper: thumbsSwiper }}
+            spaceBetween={10}
+            className="mb-4 rounded-lg"
+          >
+            {images.map((image, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-96 object-contain rounded-lg bg-gray-100"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Thumbnail slider */}
+          {/* {images.length > 1 && (
+            <Swiper
+              modules={[Thumbs]}
+              watchSlidesProgress
+              onSwiper={setThumbsSwiper}
+              spaceBetween={10}
+              slidesPerView={4}
+              className="thumbnail-slider"
+            >
+              {images.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-24 object-cover rounded-lg cursor-pointer"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )} */}
         </div>
+
+  {/* Image gallery */}
+<div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+  {/* Main image (always shown) */}
+ {/* <img 
+    src={images[0].src} 
+    alt={images[0].alt} 
+    className="w-full rounded-lg object-cover lg:col-span-2 lg:row-span-2" 
+  /> */}
+   
+  {/* Additional images (only if they exist) */}
+ {/* {images.length > 1 && (
+    <>
+      <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+        {images[1] && (
+          <img src={images[1].src} alt={images[1].alt} className="w-full rounded-lg object-cover" />
+        )}
+        {images[2] && (
+          <img src={images[2].src} alt={images[2].alt} className="w-full rounded-lg object-cover" />
+        )}
+      </div>
+      {images[3] && (
+        <img src={images[3].src} alt={images[3].alt} className="w-full rounded-lg object-cover" />
+      )}
+    </>
+  )} */}
+</div> 
 
         {/* Product details */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">

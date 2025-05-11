@@ -1,6 +1,5 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import ProductPage from "./ProductPage";
 const products = [
   {
     id: 1,
@@ -9,6 +8,51 @@ const products = [
     price: '$48',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-01.jpg',
     imageAlt: 'Tall slender porcelain bottle with natural clay textured body and cork stopper.',
+    breadcrumbs: [
+      { id: 1, name: 'Home', href: '/' },
+      { id: 2, name: 'Drinkware', href: '/category/drinkware' },
+    ],
+    images: [
+      {
+        src: 'https://m.media-amazon.com/images/I/51Arl6eG9rL._AC_UF350,350_QL80_.jpg',
+        alt: 'Main product image',
+      },
+      {
+        src: 'https://m.media-amazon.com/images/I/61Y4kBO0UXL.jpg',
+        alt: 'Side angle',
+      },
+      {
+        src: 'https://m.media-amazon.com/images/I/51XRR5kcP7L.jpg',
+        alt: 'In use',
+      },
+      {
+        src: 'https://m.media-amazon.com/images/I/71ScGqB1r0L._AC_UF1000,1000_QL80_.jpg',
+        alt: 'Packaging',
+      },
+    ],
+    colors: [
+      { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+      { name: 'Clay', class: 'bg-amber-900', selectedClass: 'ring-amber-500' },
+    ],
+    sizes: [
+      { name: 'S', inStock: true },
+      { name: 'M', inStock: true },
+      { name: 'L', inStock: false },
+      { name: 'XL', inStock: true },
+    ],
+    description:
+      'This bottle is crafted from sustainable clay and finished with a food-safe glaze.',
+    highlights: ['Handmade', 'Eco-friendly materials', 'Food-safe finish'],
+    details:
+      'Earthenware is a sustainable material that holds up well over time. Each bottle is unique, thanks to its handmade nature.',
+  },
+  {
+    id: 2,
+    name: 'Nomad Tumbler',
+    href: '/product/2',
+    price: '$35',
+    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-02.jpg',
+    imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
     breadcrumbs: [
       { id: 1, name: 'Home', href: '/' },
       { id: 2, name: 'Drinkware', href: '/category/drinkware' },
@@ -48,20 +92,49 @@ const products = [
       'Earthenware is a sustainable material that holds up well over time. Each bottle is unique, thanks to its handmade nature.',
   },
   {
-    id: 2,
-    name: 'Nomad Tumbler',
-    href: '/product/2',
-    price: '$35',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-02.jpg',
-    imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
-  },
-  {
     id: 3,
     name: 'Focus Paper Refill',
     href: '/product/3',
     price: '$89',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-03.jpg',
     imageAlt: 'Person using a pen to cross a task off a productivity paper card.',
+    breadcrumbs: [
+      { id: 1, name: 'Home', href: '/' },
+      { id: 2, name: 'Drinkware', href: '/category/drinkware' },
+    ],
+    images: [
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-featured-product-shot.jpg',
+        alt: 'Main product image',
+      },
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-product-shot-01.jpg',
+        alt: 'Side angle',
+      },
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-product-shot-02.jpg',
+        alt: 'In use',
+      },
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-product-shot-03.jpg',
+        alt: 'Packaging',
+      },
+    ],
+    colors: [
+      { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+      { name: 'Clay', class: 'bg-amber-900', selectedClass: 'ring-amber-500' },
+    ],
+    sizes: [
+      { name: 'S', inStock: true },
+      { name: 'M', inStock: true },
+      { name: 'L', inStock: false },
+      { name: 'XL', inStock: true },
+    ],
+    description:
+      'This bottle is crafted from sustainable clay and finished with a food-safe glaze.',
+    highlights: ['Handmade', 'Eco-friendly materials', 'Food-safe finish'],
+    details:
+      'Earthenware is a sustainable material that holds up well over time. Each bottle is unique, thanks to its handmade nature.',
   },
   {
     id: 4,
@@ -70,6 +143,43 @@ const products = [
     price: '$35',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-04.jpg',
     imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
+    breadcrumbs: [
+      { id: 1, name: 'Home', href: '/' },
+      { id: 2, name: 'Drinkware', href: '/category/drinkware' },
+    ],
+    images: [
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-featured-product-shot.jpg',
+        alt: 'Main product image',
+      },
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-product-shot-01.jpg',
+        alt: 'Side angle',
+      },
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-product-shot-02.jpg',
+        alt: 'In use',
+      },
+      {
+        src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-product-shot-03.jpg',
+        alt: 'Packaging',
+      },
+    ],
+    colors: [
+      { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+      { name: 'Clay', class: 'bg-amber-900', selectedClass: 'ring-amber-500' },
+    ],
+    sizes: [
+      { name: 'S', inStock: true },
+      { name: 'M', inStock: true },
+      { name: 'L', inStock: false },
+      { name: 'XL', inStock: true },
+    ],
+    description:
+      'This bottle is crafted from sustainable clay and finished with a food-safe glaze.',
+    highlights: ['Handmade', 'Eco-friendly materials', 'Food-safe finish'],
+    details:
+      'Earthenware is a sustainable material that holds up well over time. Each bottle is unique, thanks to its handmade nature.',
   },
   // More products...
 ]
@@ -78,7 +188,7 @@ export default function Products() {
   const navigate = useNavigate();
 
   const handleClick = (product) => {
-    navigate("/productpage", { state: { product } });
+    navigate(`/productpage/${product.id}`, { state: { product } });
   };
   return (
     <div className="min-h-screen bg-gradient-to-r from-black via-gray-500 to-gray-100 text-white shadow-lg">
