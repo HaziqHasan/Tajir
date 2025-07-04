@@ -102,11 +102,10 @@ export default function Mainsection() {
         </div>
       </div>
     </div><br />
-<u>
-  <div className="flex justify-center text-3xl font-serif  tracking-tight text-white sm:text-4xl">New arrivals</div>
-  </u> 
+<div className="flex justify-center text-3xl font-serif tracking-tight text-white sm:text-4xl underline">
+  New arrivals
+</div>
   
-  {/* // home section */}
   <div className=" shadow-lg">
       
       

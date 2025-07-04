@@ -13,20 +13,27 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
-  // { name: 'Home', href: '/home', current: false },
   { name: 'Products', href: '/products', current: false },
   { name: 'About Us', href: '/about', current: false },
   { name: 'Cart', href: '/cart', current: false },
 ]
 
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+
+export default function Navbar() {
+  const pageNavigate = useNavigate()
+
+const handleLogout = ()=>{
+  pageNavigate("/login")
+}
   return (
     <Disclosure as="nav" className="bg-gradient-to-r from-black via-gray-500 to-gray-100 text-white shadow-lg">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -88,21 +95,21 @@ export default function Example() {
                   />
                 </MenuButton>
               </div>
-              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white text-gray-800 py-1 shadow-lg ring-1 ring-black/10 focus:outline-none">
+              <MenuItems className="transition-all duration-200 ease-in-out origin-top-right transform scale-95 hover:scale-100">
                 <MenuItem>
-                  <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-900">
                     Your Profile
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-900">
                     Settings
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <button onClick={handleLogout} className="block px-4 py-2 text-sm hover:bg-gray-900">
                     Sign out
-                  </a>
+                  </button>
                 </MenuItem>
               </MenuItems>
             </Menu>
