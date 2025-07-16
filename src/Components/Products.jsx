@@ -1,55 +1,75 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API_BASE_URL from "../Api/Api";
-
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 export default function Products() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
 
-  // useEffect(() => {
-  //   // fetchProducts()
-  //     .then((res) => setProducts(res.data))
-  //     .catch((err) => console.error("Failed to load products", err));
-  //   }, []);
-  //   console.log(products);
-    
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("https://mocki.io/v1/4df98aab-f6cc-454d-982a-3fe4505c6183");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Failed to load products", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-  // const handleClick = (product) => {
-  //   navigate(`/productpage/${product.id}`, { state: { product } });
-  // };
+  const handleClick = (product) => {
+    navigate(`/productpage/${product.id}`, { state: { product } });
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-black via-gray-500 to-gray-100 text-white shadow-lg">
+    <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <h2 className="mb-10 text-4xl font-bold tracking-wide text-center text-white">Explore Our Collection</h2>
+        <h2 className="mb-10 text-4xl font-bold tracking-wide text-center text-gray-600">
+          Explore Our Collection
+        </h2>
 
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Swiper
+          modules={[Navigation]}
+          navigation
+          loop={false}
+          grabCursor
+          spaceBetween={20}
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 },
+          }}
+        >
           {products.map((product) => (
-            <div
-              key={product.id}
-              onClick={() => handleClick(product)}
-              className="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:border-white/20 hover:bg-white/10"
-            >
-              <div className="relative overflow-hidden rounded-xl">
-                <img
-                  alt={product.imageAlt || product.name}
-                  src={product.image }
-                  className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 rounded-xl bg-black/30 opacity-0 transition-opacity group-hover:opacity-100" />
+            <SwiperSlide key={product.id}>
+              <div
+                onClick={() => handleClick(product)}
+                className="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:border-white/20 hover:bg-white/10"
+              >
+                <div className="relative overflow-hidden rounded-xl">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-40 object-cover mb-2 rounded"
+                  />
+                  <div className="absolute inset-0 rounded-xl bg-black/30 opacity-0 transition-opacity group-hover:opacity-100" />
+                </div>
+                <div className="mt-4 space-y-1 text-center">
+                  <h3 className="text-lg font-semibold text-gray-600 group-hover:underline">{product.name}</h3>
+                  <p className="text-md font-medium text-gray-600">₹{product.price}</p>
+                  <p className="text-sm text-gray-600">{product.category}</p>
+                  <p className="text-sm text-gray-600">{product.description}</p>
+                </div>
               </div>
-
-              <div className="mt-4 space-y-1 text-center">
-                <h3 className="text-lg font-semibold text-white group-hover:underline">{product.name}</h3>
-                <p className="text-md font-medium text-gray-300">${product.price}</p>
-              </div>
-              
-                <h3 className="text-lg font-semibold text-white group-hover:underline">{product.category}</h3>
-                <h3 className="text-lg font-semibold text-white group-hover:underline">{product.description}</h3>
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
     </div>
   );

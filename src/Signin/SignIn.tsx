@@ -1,36 +1,52 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import API_BASE_URL from '../Api/Api';
+
+interface CustomJwtPayload {
+  role: 'admin' | 'vendor' | 'customer';
+  [key: string]: any;
+}
 
 export default function SignUpPage() {
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
   const navigate = useNavigate();
 
   const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match ❌');
-      return;
-    }
+  if (password !== confirmPassword) {
+    alert('Passwords do not match ❌');
+    return;
+  }
 
-    try {
-      await axios.post('http://localhost:8000/api/signup/', {
-        name,
-        email,
-        password,
-      });
+  try {
+    const response = await axios.post(`${API_BASE_URL}api/register/`, {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone_no: phone,
+      password,
+      role: 2, // Default role
+    });
 
-      alert('Account created successfully ✅');
-      navigate('/login');
-    } catch (error) {
-      console.error(error);
-      alert('Sign up failed ❌');
-    }
-  };
+    // Show success message and redirect to login
+    alert('Account created successfully ✅ Please log in.');
+    navigate('/login');
+
+  } catch (error) {
+    console.error(error);
+    alert('Sign up failed ❌');
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -48,25 +64,30 @@ export default function SignUpPage() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSignUp} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-900">
-              Full Name
-            </label>
+            <label className="block text-sm font-medium text-gray-900">First Name</label>
             <input
-              id="name"
               type="text"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-900">
-              Email address
-            </label>
+            <label className="block text-sm font-medium text-gray-900">Last Name</label>
             <input
-              id="email"
+              type="text"
+              required
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900">Email Address</label>
+            <input
               type="email"
               required
               value={email}
@@ -76,11 +97,21 @@ export default function SignUpPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-900">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-900">Phone Number</label>
             <input
-              id="password"
+              type="tel"
+              required
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
+            />
+          </div>
+
+         
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900">Password</label>
+            <input
               type="password"
               required
               value={password}
@@ -90,11 +121,8 @@ export default function SignUpPage() {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-900">
-              Confirm Password
-            </label>
+            <label className="block text-sm font-medium text-gray-900">Confirm Password</label>
             <input
-              id="confirmPassword"
               type="password"
               required
               value={confirmPassword}

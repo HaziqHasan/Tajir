@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import API_BASE_URL from '../Api/Api'
+import API_BASE_URL from '../Api/Api';
 
-// Custom payload interface to include 'role'
 interface CustomJwtPayload {
   role: 'admin' | 'vendor' | 'customer';
   [key: string]: any;
@@ -15,34 +14,42 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem('accessToken');
+  //   if (token) {
+  //     try {
+  //       const decoded = jwtDecode< >(token);
+  //       const role = decoded.role;
+  //       if (role === 'admin') navigate('/admin');
+  //       else if (role === 'vendor') navigate('/vendor');
+  //       else navigate('/');
+  //     } catch (err) {
+  //       localStorage.removeItem('accessToken');
+  //       localStorage.removeItem('refreshToken');
+  //     }
+  //   }
+  // }, [navigate]);
+
   const handleLogin = async () => {
     try {
       const response = await axios.post(`${API_BASE_URL}api/token/`, {
-        email,
+        username: email, 
         password,
       });
-      console.log(response.data,'haziq')
 
       const { access, refresh } = response.data;
-
-
-      // Save token
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
 
-      // Decode token with correct type
       const decoded = jwtDecode<CustomJwtPayload>(access);
       const role = decoded.role;
 
-      // Redirect based on role
-      if (role === 'admin') navigate('/admin/dashboard');
-      else if (role === 'vendor') navigate('/vendor/home');
-      else if (role === 'customer') navigate('/shop');
-      else navigate('/unauthorized');
-
+      if (role === 'admin') navigate('/admin');
+      else if (role === 'vendor') navigate('/vendor');
+      else navigate('/');
     } catch (err) {
+      alert('Login failed ❌');
       console.error(err);
-      alert("Login failed ❌");
     }
   };
 
@@ -70,7 +77,9 @@ function LoginPage() {
             Login
           </button>
         </form>
-        <p className="mt-4 text-sm text-gray-600">Don't have an account? <a href="/signin" className="text-blue-500">Sign Up</a></p>
+        <p className="mt-4 text-sm text-gray-600">
+          Don't have an account? <a href="/signin" className="text-blue-500">Sign Up</a>
+        </p>
       </div>
     </div>
   );
