@@ -33,7 +33,7 @@ const ScrollAnimatedText = () => {
     offset: ["start end", "end start"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 5], ["0%", "100%"]);
+  const x = useTransform(scrollYProgress, [0, 10], ["0%", "100%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.3, 0]);
 
   return (
