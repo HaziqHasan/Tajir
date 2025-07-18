@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import API_BASE_URL from '../Api/Api'
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -13,14 +14,18 @@ export default function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("https://mocki.io/v1/4df98aab-f6cc-454d-982a-3fe4505c6183");
+        const response = await axios.get(`${API_BASE_URL}`);
         setProducts(response.data);
+        console.log(response.data);
+
       } catch (error) {
         console.error("Failed to load products", error);
       }
     };
     fetchProducts();
   }, []);
+
+
 
   const handleClick = (product) => {
     navigate(`/productpage/${product.id}`, { state: { product } });
@@ -54,9 +59,9 @@ export default function Products() {
               >
                 <div className="relative overflow-hidden rounded-xl">
                   <img
-                    src={product.image}
+                    src={product.images[0]?.image_url}
                     alt={product.name}
-                    className="w-full h-40 object-cover mb-2 rounded"
+                    className="w-full h-40 object-cover mb-2 rounded-lg shadow-lg"
                   />
                   <div className="absolute inset-0 rounded-xl bg-black/30 opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
