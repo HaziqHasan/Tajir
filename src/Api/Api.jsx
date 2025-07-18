@@ -1,4 +1,2 @@
-import axios from "axios";
-
-const API_BASE_URL = "https://tajir.pythonanywhere.com/api/products/";  
-export default API_BASE_URL
+const API_BASE_URL = "https://tajir.pythonanywhere.com/";
+export default API_BASE_URL;

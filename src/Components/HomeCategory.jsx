@@ -3,21 +3,20 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import API_BASE_URL from '../Api/Api'
+import API_BASE_URL from "../Api/Api";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function Products() {
+export default function HomeCategory() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}`);
+        const response = await axios.get(`${API_BASE_URL}/api/categories/`);
         setProducts(response.data);
         console.log(response.data);
-
       } catch (error) {
         console.error("Failed to load products", error);
       }
@@ -25,10 +24,8 @@ export default function Products() {
     fetchProducts();
   }, []);
 
-
-
   const handleClick = (product) => {
-    navigate(`/productpage/${product.id}`, { state: { product } });
+    navigate(`/allproducts/${product.id}`, { state: { product } });
   };
 
   return (
@@ -59,16 +56,20 @@ export default function Products() {
               >
                 <div className="relative overflow-hidden rounded-xl">
                   <img
-                    src={product.images[0]?.image_url}
+                    src={product.images}
                     alt={product.name}
                     className="w-full h-40 object-cover mb-2 rounded-lg shadow-lg"
                   />
                   <div className="absolute inset-0 rounded-xl bg-black/30 opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
                 <div className="mt-4 space-y-1 text-center">
-                  <h3 className="text-lg font-semibold text-gray-600 group-hover:underline">{product.name}</h3>
-                  <p className="text-md font-medium text-gray-600">₹{product.price}</p>
-                  <p className="text-sm text-gray-600">{product.category}</p>
+                  <h3 className="text-lg font-semibold text-gray-600 group-hover:underline">
+                    {product.name}
+                  </h3>
+                  {/* <p className="text-md font-medium text-gray-600">
+                    ₹{product.price}
+                  </p> */}
+                  {/* <p className="text-sm text-gray-600">{product.category}</p> */}
                   <p className="text-sm text-gray-600">{product.description}</p>
                 </div>
               </div>
