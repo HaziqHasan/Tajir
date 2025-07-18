@@ -10,11 +10,11 @@ const FloatingImage = ({ src, delay = 0 }) => {
     <motion.div
       className="h-577px w-460px overflow-hidden rounded-lg shadow-lg hover:scale-[1.02] hover:border-white/20 hover:bg-white/10"
       initial={{ x: 0, y: 0, rotate: 0 }}
-      // animate={{
-      //   x: [0, 10, -10, 0],
-      //   y: [0, -10, 10, 0],
-      //   rotate: [0, 2, -2, 0],
-      // }}
+      animate={{
+        x: [0, 10, -10, 0],
+        y: [0, -10, 10, 0],
+        rotate: [0, 2, -2, 0],
+      }}
       transition={{
         duration: 6,
         repeat: Infinity,
@@ -70,7 +70,7 @@ const AutoImageSlider = ({ images }) => {
   }, [index, controls, images.length]);
 
   return (
-    <div className="relative w-full overflow-hidden h-72 mt-8">
+    <div className="relative w-full overflow-hidden mt-8">
       <motion.div
         className="flex"
         animate={controls}
@@ -144,7 +144,7 @@ const Home = () => {
     <div className="relative flex flex-col items-center justify-center bg-white sm:px-8 lg:px-10 w-full">
 
      
-<div className="lg:hidden w-full flex flex-col items-center justify-center px-4">
+<div className="lg:hidden w-full flex flex-col items-center justify-center">
   <AutoImageSlider images={images} />
   <ScrollAnimatedText />
 </div>

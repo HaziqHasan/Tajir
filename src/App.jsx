@@ -4,7 +4,7 @@ import Navbar from './Components/Navbar';
 import Mainsection from './Components/Mainsection';
 import './index.css';
 import Cart from './Components/Cart';
-import AboutUs from './Components/About';
+import About from './Components/About';
 import SignIn from './Signin/SignIn';
 import LoginPage from './Signin/LoginPage';
 import AdminDashboard from './UserPage.tsx/AdminDashboard';
@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<Mainsection />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/about" element={<AboutUs />} />
+        <Route path="/about" element={<About />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/login" element={<LoginPage />} />
 
