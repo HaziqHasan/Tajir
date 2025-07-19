@@ -5,8 +5,8 @@ import Mainsection from "./Components/Mainsection";
 import "./index.css";
 import Cart from "./Components/Cart";
 import AboutUs from "./Components/About";
-import SignIn from "./Signin/SignIn";
-import LoginPage from "./Signin/LoginPage";
+import SignUpPage from "./SignIn&SingUp/SignUpPage";
+import LoginPage from "./SignIn&SingUp/LoginPage";
 import AdminDashboard from "./UserPage.tsx/AdminDashboard";
 import VendorHome from "./UserPage.tsx/AdminDashboard";
 import HomeCategory from "./Components/HomeCategory";
@@ -27,7 +27,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/HomeCategory" element={<HomeCategory />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route path="/admin" element={<AdminDashboard />} />
