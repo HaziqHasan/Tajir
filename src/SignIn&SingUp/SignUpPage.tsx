@@ -1,171 +1,27 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
-// import { jwtDecode } from 'jwt-decode';
-// import API_BASE_URL from '../Api/Api';
-
-// interface CustomJwtPayload {
-//   role: 'admin' | 'vendor' | 'customer';
-//   [key: string]: any;
-// }
-
-// export default function SignUpPage() {
-//   const [firstName, setFirstName] = useState('');
-//   const [lastName, setLastName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [phone, setPhone] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [confirmPassword, setConfirmPassword] = useState('');
-
-//   const navigate = useNavigate();
-
-//   const handleSignUp = async (e: React.FormEvent) => {
-//   e.preventDefault();
-
-//   if (password !== confirmPassword) {
-//     alert('Passwords do not match ❌');
-//     return;
-//   }
-
-//   try {
-//     const response = await axios.post(`${API_BASE_URL}api/register/`, {
-//       first_name: firstName,
-//       last_name: lastName,
-//       email,
-//       phone_no: phone,
-//       password,
-//       role: 2, // Default role
-//     });
-
-//     // Show success message and redirect to login
-//     alert('Account created successfully ✅ Please log in.');
-//     navigate('/login');
-
-//   } catch (error) {
-//     console.error(error);
-//     alert('Sign up failed ❌');
-//   }
-// };
-
-//   return (
-//     <div className="flex items-center justify-center h-screen bg-gray-100">
-//       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-//         <img
-//           alt="Your Company"
-//           src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-//           className="mx-auto h-10 w-auto"
-//         />
-//         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
-//           Create your account
-//         </h2>
-//       </div>
-
-//       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-//         <form onSubmit={handleSignUp} className="space-y-6">
-//           <div>
-//             <label className="block text-sm font-medium text-gray-900">First Name</label>
-//             <input
-//               type="text"
-//               required
-//               value={firstName}
-//               onChange={(e) => setFirstName(e.target.value)}
-//               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-900">Last Name</label>
-//             <input
-//               type="text"
-//               required
-//               value={lastName}
-//               onChange={(e) => setLastName(e.target.value)}
-//               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-900">Email Address</label>
-//             <input
-//               type="email"
-//               required
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-900">Phone Number</label>
-//             <input
-//               type="tel"
-//               required
-//               value={phone}
-//               onChange={(e) => setPhone(e.target.value)}
-//               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-900">Password</label>
-//             <input
-//               type="password"
-//               required
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-900">Confirm Password</label>
-//             <input
-//               type="password"
-//               required
-//               value={confirmPassword}
-//               onChange={(e) => setConfirmPassword(e.target.value)}
-//               className="mt-2 block w-full rounded-md border px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-indigo-600"
-//             />
-//           </div>
-
-//           <div>
-//             <button
-//               type="submit"
-//               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
-//             >
-//               Sign up
-//             </button>
-//           </div>
-//         </form>
-
-//         <p className="mt-6 text-center text-sm text-gray-500">
-//           Already have an account?{' '}
-//           <a href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
-//             Login to your account
-//           </a>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// }
-// src/pages/SignUpPage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../Api/Api";
+import { motion, AnimatePresence } from "framer-motion";
 
-interface CustomJwtPayload {
-  role: "admin" | "vendor" | "customer";
-  [key: string]: any;
+interface SignUpPageProps {
+  onClose?: () => void;
+  onSwitchToLogin?: () => void;
 }
-
-export default function SignUpPage() {
+const SignUpPage: React.FC<SignUpPageProps> = ({
+  onClose,
+  onSwitchToLogin,
+}) => {
+  const closeModal = () => {
+    if (typeof onClose === "function") onClose();
+  };
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -175,6 +31,7 @@ export default function SignUpPage() {
       return;
     }
 
+    setLoading(true);
     try {
       await axios.post(`${API_BASE_URL}api/register/`, {
         first_name: firstName,
@@ -185,7 +42,6 @@ export default function SignUpPage() {
         role: 2,
       });
 
-      // Auto-login after registration
       const loginRes = await axios.post(`${API_BASE_URL}api/token/`, {
         email,
         password,
@@ -194,104 +50,121 @@ export default function SignUpPage() {
       localStorage.setItem("accessToken", loginRes.data.access);
       localStorage.setItem("refreshToken", loginRes.data.refresh);
 
-      navigate("/");
-    } catch (error) {
+      if (typeof onClose === "function") onClose();
+    } catch (error: any) {
       console.error("Signup Error →", error.response?.data || error.message);
-      alert(JSON.stringify(error.response?.data, null, 2));
-      console.error(error);
       alert("Sign up failed ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4">
-      <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl p-10">
-        <div className="text-center mb-6">
-          <img
-            src="https://www.tailwindtap.com/assets/elegant-logo-1.svg"
-            alt="Brand Logo"
-            className="mx-auto h-12"
-          />
-          <h2 className="mt-4 text-3xl font-extrabold text-gray-800">
-            Create Your Tajir Account
-          </h2>
-          <p className="text-gray-500">Join the shopping experience</p>
-        </div>
-
-        <form onSubmit={handleSignUp} className="space-y-5">
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              required
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="input-field"
-            />
-            <input
-              type="text"
-              required
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="input-field"
-            />
-          </div>
-
-          <input
-            type="email"
-            required
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="input-field"
-          />
-
-          <input
-            type="tel"
-            required
-            placeholder="Phone Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="input-field"
-          />
-
-          <input
-            type="password"
-            required
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input-field"
-          />
-
-          <input
-            type="password"
-            required
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="input-field"
-          />
-
+    <AnimatePresence>
+      <motion.div
+        key="signup-backdrop"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          key="signup-modal"
+          initial={{ y: -30, opacity: 0, scale: 0.95 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 30, opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="relative w-full max-w-md mx-auto bg-white/90 backdrop-blur-md rounded-xl shadow-xl px-6 py-8 border border-gray-200"
+        >
           <button
-            type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl text-lg font-semibold shadow-md transition"
+            onClick={() => {
+              if (typeof onClose === "function") onClose();
+            }}
+            className="absolute top-2 right-3 text-gray-500 text-xl hover:text-gray-700"
           >
-            Sign Up
+            ×
           </button>
-        </form>
+          <h2 className="text-2xl text-center font-semibold mb-6">Sign Up</h2>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <a
-            href="/login"
-            className="font-semibold text-indigo-600 hover:text-indigo-500"
-          >
-            Login to your account
-          </a>
-        </p>
-      </div>
-    </div>
+          <form onSubmit={handleSignUp} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+            />
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded text-lg font-semibold"
+            >
+              {loading ? "Creating Account..." : "Sign Up"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <button
+              onClick={() => {
+                if (typeof onClose === "function") onClose();
+                setTimeout(() => {
+                  if (typeof onSwitchToLogin === "function") onSwitchToLogin();
+                }, 300);
+              }}
+              className="border border-gray-500 text-gray-800 px-6 py-2 rounded hover:bg-gray-100 transition"
+            >
+              Login instead
+            </button>
+          </p>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
-}
+};
+
+export default SignUpPage;

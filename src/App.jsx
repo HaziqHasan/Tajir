@@ -5,12 +5,12 @@ import Mainsection from "./Components/Mainsection";
 import "./index.css";
 import Cart from "./Components/Cart";
 import AboutUs from "./Components/About";
-import SignUpPage from "./SignIn&SingUp/SignUpPage";
-import LoginPage from "./SignIn&SingUp/LoginPage";
+// import SignUpPage from "./SignIn&SingUp/SignUpPage";
+// import LoginPage from "./SignIn&SingUp/LoginPage";
 import AdminDashboard from "./UserPage.tsx/AdminDashboard";
 import VendorHome from "./UserPage.tsx/AdminDashboard";
 import HomeCategory from "./Components/HomeCategory";
-// import ProductPage from "./Components/ProductPage";
+
 import AllProducts from "./Components/AllProducts";
 import SingleProduct from "./Components/SingleProduct";
 
@@ -27,13 +27,13 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/HomeCategory" element={<HomeCategory />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} /> */}
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/vendor" element={<VendorHome />} />
         <Route path="/" element={<Mainsection />} />
-        {/* <Route path="/productpage/:id" element={<ProductPage />} /> */}
+
         <Route path="/allproducts/:categoryId" element={<AllProducts />} />
         <Route path="/productpage/:productId" element={<SingleProduct />} />
 
