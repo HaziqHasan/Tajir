@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -6,28 +7,30 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
-} from '@headlessui/react'
-import {
-  Bars3Icon,
-  BellIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+} from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import LoginPage from "../SignIn&SingUp/LoginPage";
+import LoginIcon from "../assets/icons/login_14018816.png";
+import SignUpPage from "../SignIn&SingUp/SignUpPage";
 
 const navigation = [
-  { name: 'Dashboard', href: '/', current: true },
-  { name: 'Products', href: '/products', current: false },
-  { name: 'About Us', href: '/about', current: false },
-  { name: 'Cart', href: '/cart', current: false },
-]
+  { name: "Dashboard", href: "/" },
+  { name: "Products", href: "/products" },
+  { name: "About Us", href: "/about" },
+  { name: "Cart", href: "/cart" },
+];
 
 export default function Navbar() {
-  const pageNavigate = useNavigate()
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+
+  const pageNavigate = useNavigate();
+  // const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleLogout = () => {
-    pageNavigate("/login")
-  }
+    pageNavigate("/login");
+  };
 
   return (
     <>
@@ -36,74 +39,93 @@ export default function Navbar() {
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
-
-                {/* Left Nav Links and Mobile Menu Button */}
                 <div className="flex items-center sm:space-x-6 space-x-3">
                   <div className="sm:hidden">
                     <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white">
-                      <span className="sr-only">Open main menu</span>
                       {open ? (
-                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                        <XMarkIcon className="block h-6 w-6" />
                       ) : (
-                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                        <Bars3Icon className="block h-6 w-6" />
                       )}
                     </DisclosureButton>
                   </div>
-
                   <div className="hidden sm:flex space-x-6">
                     {navigation.map((item) => (
-                      <a
+                      <NavLink
                         key={item.name}
-                        href={item.href}
-                        className="text-white hover:text-amber-400 transition-colors duration-200 text-sm font-light tracking-wide"
+                        to={item.href}
+                        className={({ isActive }) =>
+                          `text-sm font-light tracking-wide transition-colors duration-200 ${
+                            isActive
+                              ? "text-amber-400"
+                              : "text-white hover:text-amber-400"
+                          }`
+                        }
                       >
                         {item.name}
-                      </a>
+                      </NavLink>
                     ))}
                   </div>
                 </div>
 
-                {/* Center Logo */}
                 <div className="absolute left-1/2 transform -translate-x-1/2">
                   <span className="text-2xl font-bold tracking-wider font-serif text-white">
                     <i>Tajir</i>
                   </span>
                 </div>
 
-                {/* Right Icons & Menu */}
                 <div className="flex items-center space-x-3">
                   <button className="rounded-full p-2 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white">
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
 
+                  <button
+                    onClick={() => setShowLoginModal(true)} // ✅ only opens login
+                    className="rounded-full p-2 hover:bg-white/10 focus:outline-none"
+                  >
+                    <img src={LoginIcon} alt="Login" className="h-18 w-18" />
+                  </button>
+
                   <Menu as="div" className="relative">
-                    <MenuButton className="flex rounded-full bg-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-white">
+                    <MenuButton className="flex rounded-full bg-white/10 text-sm focus:outline-none">
                       <img
                         alt="User"
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         className="h-8 w-8 rounded-full"
                       />
                     </MenuButton>
-                    <MenuItems className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                    <MenuItems className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                       <MenuItem>
                         {({ active }) => (
-                          <a href="#" className={`block px-4 py-2 text-sm ${active && 'bg-gray-100'}`}>
+                          <NavLink
+                            to="/profile"
+                            className={`block px-4 py-2 text-sm ${
+                              active ? "bg-gray-100" : ""
+                            }`}
+                          >
                             Your Profile
-                          </a>
+                          </NavLink>
                         )}
                       </MenuItem>
                       <MenuItem>
                         {({ active }) => (
-                          <a href="#" className={`block px-4 py-2 text-sm ${active && 'bg-gray-100'}`}>
+                          <NavLink
+                            to="/settings"
+                            className={`block px-4 py-2 text-sm ${
+                              active ? "bg-gray-100" : ""
+                            }`}
+                          >
                             Settings
-                          </a>
+                          </NavLink>
                         )}
                       </MenuItem>
                       <MenuItem>
                         {({ active }) => (
                           <button
                             onClick={handleLogout}
-                            className={`w-full text-left block px-4 py-2 text-sm ${active && 'bg-gray-100'}`}
+                            className={`w-full text-left px-4 py-2 text-sm ${
+                              active ? "bg-gray-100" : ""
+                            }`}
                           >
                             Sign out
                           </button>
@@ -115,24 +137,50 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile Nav */}
+            {/* Mobile nav */}
             <DisclosurePanel className="sm:hidden px-4 pb-4 pt-2">
               <div className="space-y-2">
                 {navigation.map((item) => (
-                  <DisclosureButton
+                  <NavLink
                     key={item.name}
-                    as="a"
-                    href={item.href}
-                    className="block text-white hover:text-amber-400 transition"
+                    to={item.href}
+                    className={({ isActive }) =>
+                      `block text-sm ${
+                        isActive
+                          ? "text-amber-400"
+                          : "text-white hover:text-amber-400"
+                      }`
+                    }
                   >
                     {item.name}
-                  </DisclosureButton>
+                  </NavLink>
                 ))}
               </div>
             </DisclosurePanel>
           </>
         )}
       </Disclosure>
+
+      {/* Show Modal */}
+      {showLoginModal && (
+        <LoginPage
+          onClose={() => setShowLoginModal(false)}
+          onSwitchToSignup={() => {
+            setShowLoginModal(false);
+            setTimeout(() => setShowSignupModal(true), 300);
+          }}
+        />
+      )}
+
+      {showSignupModal && (
+        <SignUpPage
+          onClose={() => setShowSignupModal(false)}
+          onSwitchToLogin={() => {
+            setShowSignupModal(false);
+            setTimeout(() => setShowLoginModal(true), 300);
+          }}
+        />
+      )}
     </>
-  )
+  );
 }
