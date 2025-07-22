@@ -31,7 +31,7 @@ export default function AllProducts() {
   if (error) return <p className="text-center py-10 text-red-500">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-6">
+    <div className="min-h-screen bg-gray-50 ">
       <h2 className="text-3xl font-bold text-gray-700 text-center mb-10">
         Products in Category #{categoryId}
       </h2>
@@ -39,7 +39,7 @@ export default function AllProducts() {
       {products.length === 0 ? (
         <p className="text-center text-gray-400">No products found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => (
             <div
               key={product.id}

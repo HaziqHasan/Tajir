@@ -1,0 +1,41 @@
+.custom-prev,
+.custom-next {
+  background: white;
+  color: black;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  top: 45%;
+  position: absolute;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-prev {
+  left: -20px;
+}
+
+.custom-next {
+  right: -20px;
+}
+
+.custom-prev::after,
+.custom-next::after {
+  content: '';
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 8px;
+}
+
+.custom-prev::after {
+  transform: rotate(135deg);
+}
+
+.custom-next::after {
+  transform: rotate(-45deg);
+}

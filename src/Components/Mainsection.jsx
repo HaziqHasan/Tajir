@@ -9,9 +9,9 @@ export default function Mainsection() {
       <Home />
       <div className=" shadow-lg">
         <HomeCategory />
-      </div>
       <div className=" shadow-lg">
         <About />
+      </div>
       </div>
     </div>
   );
