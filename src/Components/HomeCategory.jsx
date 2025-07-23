@@ -77,7 +77,7 @@ const displayedProducts = ensureMinSlides(products, 6);
     <SwiperSlide key={`${product.id}-${index}`}>
       <div
         onClick={() => handleClick(product)}
-        className="card group cursor-pointer rounded-2xl bg-white p-4 shadow-xl transition-all duration-300"
+        className="card w-full h-full group cursor-pointer rounded-2xl bg-white p-4 shadow-xl transition-all duration-300"
       >
         <div className="relative overflow-hidden rounded-xl">
           <img

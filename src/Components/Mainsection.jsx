@@ -6,27 +6,47 @@ import Home from "./Home";
 import LoginPage from "../SignIn&SingUp/LoginPage";
 import SignUpPage from "../SignIn&SingUp/SignUpPage";
 import Footer from '../Components/Footer'
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 
 export default function Mainsection() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    const scrollToId = location.state?.scrollToId;
+    if (scrollToId) {
+      const el = document.getElementById(scrollToId);
+      if (el) {
+        // wait a bit for rendering
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location]);
   return (
-    <div className="bg-white relative">
-      <Home
-        openLogin={() => setShowLogin(true)}
-        openSignup={() => setShowSignup(true)}
-      />
+    <div className="bg-white relative scroll-smooth pt-16 ">
+      <section id="home">
+        <Home
+          openLogin={() => setShowLogin(true)}
+          openSignup={() => setShowSignup(true)}
+        />
+      </section>
 
-      <div className="shadow-lg">
+      <section id="products" className="shadow-lg">
         <HomeCategory />
-      </div>
-      <div className="shadow-lg">
+      </section>
+
+      <section id="about" className="shadow-lg">
         <About />
-      </div>
-      <div className="shadow-lg">
+      </section>
+
+      <section id="contact" className="shadow-lg">
         <Footer />
-      </div>
+      </section>
 
       {showLogin && (
         <LoginPage

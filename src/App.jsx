@@ -26,7 +26,6 @@ function App() {
         <Route path="/HomeCategory" element={<HomeCategory />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/footer" element={<Footer />} />
-       
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/vendor" element={<VendorHome />} />
