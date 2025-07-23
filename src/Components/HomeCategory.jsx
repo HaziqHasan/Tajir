@@ -6,7 +6,7 @@ import { Navigation } from "swiper/modules";
 import API_BASE_URL from "../Api/Api";
 import "swiper/css";
 import "swiper/css/navigation";
-import "../CustomStyles/SwiperCustom.css";
+import "../SwiperCustom.css";
 
 
 export default function HomeCategory() {
