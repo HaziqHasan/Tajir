@@ -19,6 +19,7 @@ const navigation = [
   { name: "Products", href: "/products" },
   { name: "About Us", href: "/about" },
   { name: "Cart", href: "/cart" },
+  { name: "Contact Us", href: "/Footer" },
 ];
 
 export default function Navbar() {
@@ -26,7 +27,6 @@ export default function Navbar() {
   const [showSignupModal, setShowSignupModal] = useState(false);
 
   const pageNavigate = useNavigate();
-  // const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleLogout = () => {
     pageNavigate("/login");
