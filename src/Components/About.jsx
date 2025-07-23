@@ -22,7 +22,7 @@ const About = () => {
   return (
     <div
       ref={sectionRef}
-      className="mb-14 bg-black text-white p-10 flex flex-col items-center text-center font-sans"
+      className="bg-black text-white p-10 flex flex-col items-center text-center font-sans"
     >
       <motion.div
         className="max-w-4xl"
