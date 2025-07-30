@@ -1,26 +1,33 @@
-// // src/auth/AuthService.js
-// import {jwtDecode} from 'jwt-decode';
+// // context/AuthContext.js
+// import React, { createContext, useContext, useEffect, useState } from "react";
 
-// export const setTokens = (access, refresh) => {
-//   localStorage.setItem('accessToken', access);
-//   localStorage.setItem('refreshToken', refresh);
+// const AuthContext = createContext();
+
+// export const AuthProvider = ({ children }) => {
+//   const [token, setToken] = useState(null);
+
+//   useEffect(() => {
+//     const storedToken = localStorage.getItem("token");
+//     if (storedToken) setToken(storedToken);
+//   }, []);
+
+//   const login = (jwt) => {
+//     localStorage.setItem("token", jwt);
+//     setToken(jwt);
+//   };
+
+//   const logout = () => {
+//     localStorage.removeItem("token");
+//     setToken(null);
+//   };
+
+//   const isLoggedIn = !!token;
+
+//   return (
+//     <AuthContext.Provider value={{ token, isLoggedIn, login, logout }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
 // };
 
-// export const getAccessToken = () => localStorage.getItem('accessToken');
-
-// export const getUserRole = () => {
-//   const token = getAccessToken();
-//   if (!token) return null;
-
-//   try {
-//     const decoded = jwtDecode(token);
-//     return decoded;
-//   } catch (e) {
-//     return null;
-//   }
-// };
-
-// export const logout = () => {
-//   localStorage.removeItem('accessToken');
-//   localStorage.removeItem('refreshToken');
-// };
+// export const useAuth = () => useContext(AuthContext);
