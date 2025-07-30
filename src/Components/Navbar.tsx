@@ -154,7 +154,7 @@ export default function Navbar() {
                       onClick={() => setShowLoginModal(true)}
                       className="rounded-full p-2 hover:bg-white/10 focus:outline-none"
                     >
-                      <img src={LoginIcon} alt="Login" className="h-6 w-6" />
+                      <img src={LoginIcon} alt="Login" className="h-18 w-18" />
                     </button>
                   )}
                 </div>
