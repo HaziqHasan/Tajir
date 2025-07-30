@@ -102,7 +102,7 @@ const ScrollAnimatedText = () => {
   const opacity = useTransform(scrollYProgress, [0.2, 0.8, 1], [1, 0.5, 0.5]);
 
   return (
-    <motion.div ref={ref} style={{ y, opacity }} className="max-w-lg  bg-white !text-black mb-16">
+    <motion.div ref={ref} style={{ y, opacity }} className="max-w-lg p-10 bg-white !text-black mb-10 font-serif">
       <h1 className="text-4xl font-bold tracking-tight sm:text-6xl drop-shadow-lg">
         Summer styles are finally here
       </h1>

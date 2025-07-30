@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
+  Dialog,
+  Transition,
   Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
   Menu,
   MenuButton,
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Fragment } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import LoginPage from "../SignIn&SingUp/LoginPage";
 import SignUpPage from "../SignIn&SingUp/SignUpPage";
@@ -19,6 +20,7 @@ const navigation = [
   { name: "Products", href: "/products" },
   { name: "About Us", href: "/about" },
 ];
+
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +39,8 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -48,38 +52,71 @@ export default function Navbar() {
     setIsLoggedIn(true);
   };
 
+  const handleScroll = (id) => {
+    if (window.location.pathname !== "/") {
+      pageNavigate("/", { state: { scrollToId: id } });
+      setDrawerOpen(false);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+      setDrawerOpen(false);
+    }
+  };
+
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 50) {
+        setShowNavbar(true); // always show at top
+      } else if (currentScrollY > lastScrollY.current) {
+        setShowNavbar(false); // scrolling down
+      } else {
+        setShowNavbar(true); // scrolling up
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   return (
     <>
-      <Disclosure as="nav" className="bg-black font-serif text-white">
+      <Disclosure
+        as="nav"
+        className={`bg-black font-serif text-white fixed w-full z-50 transition-transform duration-300  ${showNavbar ? "translate-y-0" : "-translate-y-full "
+          }`}
+      >
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
                 <div className="flex items-center sm:space-x-6 space-x-3">
                   <div className="sm:hidden">
-                    <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white">
-                      {open ? (
-                        <XMarkIcon className="block h-6 w-6" />
-                      ) : (
-                        <Bars3Icon className="block h-6 w-6" />
-                      )}
-                    </DisclosureButton>
+                    <button
+                      className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white/10 focus:outline-none"
+                      onClick={() => setDrawerOpen(true)}
+                    >
+                      <Bars3Icon className="block h-6 w-6" />
+                    </button>
                   </div>
                   <div className="hidden sm:flex space-x-6">
                     {navigation.map((item) => (
-                      <NavLink
+                      <button
                         key={item.name}
-                        to={item.href}
-                        className={({ isActive }) =>
-                          `text-sm font-light tracking-wide transition-colors duration-200 ${
-                            isActive
-                              ? "text-amber-400"
-                              : "text-white hover:text-amber-400"
-                          }`
-                        }
+                        onClick={() => handleScroll(item.targetId)}
+                        className="text-sm font-light tracking-wide text-white hover:text-amber-400 transition-colors duration-200"
                       >
                         {item.name}
-                      </NavLink>
+                      </button>
+
                     ))}
                   </div>
                 </div>
@@ -157,9 +194,11 @@ export default function Navbar() {
                       <img src={LoginIcon} alt="Login" className="h-15 w-15" />
                     </button>
                   )}
+
                 </div>
               </div>
             </div>
+
 
             <DisclosurePanel className="sm:hidden px-4 pb-4 pt-2">
               <div className="space-y-2">
@@ -180,6 +219,7 @@ export default function Navbar() {
                 ))}
               </div>
             </DisclosurePanel>
+
           </>
         )}
       </Disclosure>
