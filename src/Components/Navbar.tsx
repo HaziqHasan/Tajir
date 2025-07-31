@@ -15,7 +15,7 @@ import { Fragment } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import LoginPage from "../SignIn&SingUp/LoginPage";
 import SignUpPage from "../SignIn&SingUp/SignUpPage";
-import { LoginIcon } from "../assets/icons/login_14018816.png";
+import LoginIcon from "../assets/icons/login_14018816.png";
 const navigation = [
   { name: "Dashboard", targetId: "home" },
   { name: "Products", targetId: "products" },
