@@ -1,14 +1,13 @@
-
 import React, { useState } from "react";
 import HomeCategory from "./HomeCategory";
 import About from "./About";
 import Home from "./Home";
 import LoginPage from "../SignIn&SingUp/LoginPage";
 import SignUpPage from "../SignIn&SingUp/SignUpPage";
-import Footer from '../Components/Footer'
+import Footer from "../Components/Footer";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
+import ArtInfo from "./ArtInfo";
 
 export default function Mainsection() {
   const [showLogin, setShowLogin] = useState(false);
@@ -38,6 +37,9 @@ export default function Mainsection() {
 
       <section id="products" className="shadow-lg">
         <HomeCategory />
+      </section>
+      <section id="artinfo" className="shadow-lg">
+        <ArtInfo />
       </section>
 
       <section id="about" className="shadow-lg">
