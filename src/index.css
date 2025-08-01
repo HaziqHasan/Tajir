@@ -1,33 +1,40 @@
 @import "tailwindcss";
 @font-face {
   font-family: "MyFont";
-  src: url("../src/assets/fonts/Orbitron/Orbitron-Regular.ttf")
+  src: url("../src/assets/fonts/Merriweather/Merriweather-Italic.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont_2";
+  src: url("../src/assets/fonts/Merriweather/Merriweather-VariableFont.ttf")
     format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 h1 {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 h2 {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 h3 {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 h4 {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 p {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 i {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
 div {
-  font-family: "MyFont", sans-serif;
+  font-family: "MyFont", "MyFont_2";
 }
