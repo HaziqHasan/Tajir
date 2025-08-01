@@ -24,7 +24,7 @@ const navigation = [
 ];
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -32,11 +32,13 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const lastScrollY = useRef(0);
   const pageNavigate = useNavigate();
-
+  const isLoggedIn = !!localStorage.getItem("accessToken");
   useEffect(() => {
     // initial setup
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    const token = localStorage.getItem("accessToken");
+    console.log("token ---------", token);
+
+    // setIsLoggedIn(!!token);
     setIsMobile(window.innerWidth < 640);
 
     // handlers
@@ -81,14 +83,15 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
+    localStorage.removeItem("accessToken");
+    // localStorage.removeItem("accessToken");
+    // setIsLoggedIn(false);
     pageNavigate("/");
   };
 
   const handleLoginSuccess = (token) => {
     localStorage.setItem("token", token);
-    setIsLoggedIn(true);
+    // setIsLoggedIn(true);
   };
 
   return (
@@ -175,57 +178,41 @@ export default function Navbar() {
                   )}
 
                   {isLoggedIn ? (
-                    !isMobile ? (
-                      <>
-                        <NavLink
-                          to="/cart"
-                          className="text-sm text-white hover:text-amber-400"
-                        >
-                          Cart
-                        </NavLink>
-                        <NavLink
-                          to="/wishlist"
-                          className="text-sm text-white hover:text-amber-400"
-                        >
-                          Wishlist
-                        </NavLink>
-                        <Menu as="div" className="relative">
-                          <MenuButton className="flex rounded-full bg-white/10 text-sm focus:outline-none">
-                            <img
-                              alt="User"
-                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                              className="h-8 w-8 rounded-full"
-                            />
-                          </MenuButton>
-                          <MenuItems className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5 z-50">
-                            <MenuItem>
-                              {({ active }) => (
-                                <NavLink
-                                  to="/profile"
-                                  className={`block px-4 py-2 text-sm ${
-                                    active ? "bg-gray-100" : ""
-                                  }`}
-                                >
-                                  Your Profile
-                                </NavLink>
-                              )}
-                            </MenuItem>
-                            <MenuItem>
-                              {({ active }) => (
-                                <button
-                                  onClick={handleLogout}
-                                  className={`w-full text-left px-4 py-2 text-sm ${
-                                    active ? "bg-gray-100" : ""
-                                  }`}
-                                >
-                                  Sign out
-                                </button>
-                              )}
-                            </MenuItem>
-                          </MenuItems>
-                        </Menu>
-                      </>
-                    ) : null
+                    <Menu as="div" className="relative">
+                      <MenuButton className="flex rounded-full bg-white/10 text-sm focus:outline-none">
+                        <img
+                          alt="User"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          className="h-8 w-8 rounded-full"
+                        />
+                      </MenuButton>
+                      <MenuItems className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                        <MenuItem>
+                          {({ active }) => (
+                            <NavLink
+                              to="/profile"
+                              className={`block px-4 py-2 text-sm ${
+                                active ? "bg-gray-100" : ""
+                              }`}
+                            >
+                              Your Profile
+                            </NavLink>
+                          )}
+                        </MenuItem>
+                        <MenuItem>
+                          {({ active }) => (
+                            <button
+                              onClick={handleLogout}
+                              className={`w-full text-left px-4 py-2 text-sm ${
+                                active ? "bg-gray-100" : ""
+                              }`}
+                            >
+                              Sign out
+                            </button>
+                          )}
+                        </MenuItem>
+                      </MenuItems>
+                    </Menu>
                   ) : (
                     <button
                       onClick={() => setShowLoginModal(true)}
