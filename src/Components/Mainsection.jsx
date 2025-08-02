@@ -8,6 +8,7 @@ import Footer from "../Components/Footer";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ArtInfo from "./ArtInfo";
+import FeaturedProducts from "./FeaturedProducts";
 
 export default function Mainsection() {
   const [showLogin, setShowLogin] = useState(false);
@@ -27,7 +28,7 @@ export default function Mainsection() {
     }
   }, [location]);
   return (
-    <div className="bg-white relative scroll-smooth pt-16">
+    <div className="bg-white relative scroll-smooth pb-10">
       <section id="home">
         <Home
           openLogin={() => setShowLogin(true)}
@@ -38,12 +39,13 @@ export default function Mainsection() {
       <section id="products" className="shadow-lg">
         <HomeCategory />
       </section>
-      <section id="artinfo" className="shadow-lg">
-        <ArtInfo />
+
+      <section id="productlist" className="shadow-lg">
+        <FeaturedProducts />
       </section>
 
-      <section id="about" className="shadow-lg">
-        <About />
+      <section id="artinfo" className="shadow-lg">
+        <ArtInfo />
       </section>
 
       <section id="contact" className="shadow-lg">
