@@ -56,7 +56,7 @@ export default function AllProducts() {
         <p className="text-center text-gray-400">No products found.</p>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 "
           variants={containerVariants}
           initial="hidden"
           animate="show"
@@ -68,24 +68,31 @@ export default function AllProducts() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(`/productpage/${product.id}`)}
-              className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transition-transform"
+              className="flex flex-col items-center gap-6 p-7 md:flex-row md:gap-8 rounded-2xl bg-white shadow-md cursor-pointer transition-transform"
             >
-              <img
-                src={product.images[0]?.image_url || "/placeholder.jpg"}
-                alt={product.name}
-                className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-gray-500 mb-2 line-clamp-2">
+              <div>
+                <img
+                  src={product.images[0]?.image_url || "/placeholder.jpg"}
+                  alt={product.name}
+                  className="size-48 shadow-xl rounded-md object-cover"
+                />
+              </div>
+
+              <div className="flex flex-col items-center md:items-start gap-2">
+                <span className="text-2xl font-medium text-gray-800">{product.name}</span>
+                <span className="font-medium text-sky-500">{product.category || "Product"}</span>
+                <span className="flex gap-2 font-medium text-gray-600 dark:text-gray-400">
+                  <span>₹{product.price}</span>
+                  <span>·</span>
+                  <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
+                </span>
+                <p className="text-sm text-gray-500 mt-2 line-clamp-2 text-center md:text-left">
                   {product.description}
                 </p>
-                <p className="text-md font-bold text-black">₹{product.price}</p>
               </div>
             </motion.div>
           ))}
+
         </motion.div>
       )}
     </div>

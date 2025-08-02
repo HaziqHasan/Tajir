@@ -11,6 +11,8 @@ import HomeCategory from "./Components/HomeCategory";
 import Footer from './Components/Footer'
 import AllProducts from "./Components/AllProducts";
 import SingleProduct from "./Components/SingleProduct";
+import ProductList from "./Components/ProductList";
+import FeaturedProducts from "./Components/FeaturedProducts";
 
 function App() {
   const location = useLocation();
@@ -23,13 +25,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Mainsection />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/productlist" element={<ProductList />} />
+        <Route path="/featuredlist" element={<FeaturedProducts />} />
         <Route path="/HomeCategory" element={<HomeCategory />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/footer" element={<Footer />} />
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/vendor" element={<VendorHome />} />
-        <Route path="/" element={<Mainsection />} />
 
         <Route path="/allproducts/:categoryId" element={<AllProducts />} />
         <Route path="/productpage/:productId" element={<SingleProduct />} />
