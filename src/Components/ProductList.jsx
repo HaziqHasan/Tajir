@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import API_BASE_URL from "../Api/Api";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -17,11 +19,13 @@ const cardVariants = {
   }),
 };
 
+
 const ProductList = () => {
 
-   const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -30,8 +34,8 @@ const ProductList = () => {
           `${API_BASE_URL}api/products/`
         );
         setProduct(res.data);
-        console.log(res.data,'hhhhhh');
-        
+        console.log(res.data, 'hhhhhh');
+
       } catch (err) {
         setError("Failed to load product");
       } finally {
@@ -47,42 +51,63 @@ const ProductList = () => {
         All Products
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {product.map((product, index) => (
-          <motion.div
-            key={product.id}
-            className="bg-white shadow-lg rounded-2xl overflow-hidden transform hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 flex flex-col"
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            custom={index}
-          >
-            <img
-              src={product.images[0]?.image_url || "/placeholder.jpg"}
-              alt={product.title}
-              className="w-full h-64 object-cover"
-            />
+      {loading ? (
+        <p className="text-center text-gray-400">Loading...</p>
+      ) : product.length === 0 ? (
+        <p className="text-center text-gray-400">No products found.</p>
+      ) : (
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto"
 
-            <div className="p-5 flex flex-col flex-grow">
-              <h2 className="text-lg font-semibold text-black mb-1">
-                {product.title}
-              </h2>
-              <p className="text-sm text-gray-600 flex-grow">
-                {product.description}
-              </p>
-              <div className="mt-4 flex justify-between items-center">
-                <span className="text-xl font-bold text-black">
-                  {product.price}
+        >
+          {product.map((product, index) => (
+            <motion.div
+              key={product.id}
+              variants={cardVariants}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex flex-col items-center gap-6 p-7 md:flex-row md:gap-8 rounded-2xl bg-white shadow-md cursor-pointer transition-transform"
+              onClick={() => navigate(`/productpage/${product.id}`)}
+            >
+              {/* Product Image */}
+              <div>
+                <img
+                  src={product.images[0]?.image_url || "/placeholder.jpg"}
+                  alt={product.title}
+                  className="size-48 shadow-xl rounded-md object-cover"
+                />
+              </div>
+
+              {/* Product Content */}
+              <div className="flex flex-col items-center md:items-start gap-2">
+                <h2 className="text-2xl font-medium text-gray-800">{product.title}</h2>
+                <span className="font-medium text-sky-500">{product.category || "Product"}</span>
+                <span className="flex gap-2 font-medium text-gray-600 dark:text-gray-400">
+                  <span>₹{product.price}</span>
+                  <span>·</span>
+                  <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
                 </span>
-                <button className="bg-black text-white px-4 py-1 rounded-lg hover:bg-gray-800 transition-all">
+                <p className="text-sm text-gray-500 mt-2 line-clamp-2 text-center md:text-left">
+                  {product.description}
+                </p>
+
+                {/* View Button */}
+                <button
+                  className="mt-4 bg-black text-white px-4 py-1 rounded-lg hover:bg-gray-800 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent parent click
+                    navigate(`/productpage/${product.id}`);
+                  }}
+                >
                   View
                 </button>
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
+
   );
 };
 
