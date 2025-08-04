@@ -1,143 +1,145 @@
-'use client'
-import React, { useState } from 'react';
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useNavigate } from 'react-router-dom';
+// ✅ This page displays the list of products added to the cart with their quantities, totals, and allows modification/removal.
+// We used a global CartContext so cart syncs with SingleProduct page and survives navigation.
 
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    color: 'Salmon',
-    price: '$90.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    color: 'Blue',
-    price: '$32.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-    imageAlt: 'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
-];
+import React from "react";
+import { Trash2 } from "lucide-react";
+import { useCart } from "../context/CartContext";
 
-export default function Cart() {
-  const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
-
-  const handleClose = () => {
-    setOpen(false);
-    setTimeout(() => {
-      navigate('/products');
-    }, 300);
+function Button({
+  children,
+  className = "",
+  variant = "default",
+  size = "md",
+  ...props
+}) {
+  const base = "rounded-xl transition font-medium";
+  const variants = {
+    default: "bg-indigo-600 text-white hover:bg-indigo-700",
+    outline: "border border-gray-300 text-gray-800 hover:bg-gray-100",
+    ghost: "text-gray-600 hover:bg-gray-100",
   };
-
+  const sizes = {
+    sm: "px-2 py-1 text-sm",
+    md: "px-4 py-2",
+    icon: "p-2",
+  };
   return (
-    <Dialog open={open} onClose={handleClose} className="relative z-10 ">
-      <DialogBackdrop
-        transition
-        className="fixed inset-0 bg-gradient-to-r from-black via-grey-600 to-gray-100 text-white shadow-lg transition-opacity duration-500 ease-in-out data-closed:opacity-0"
-      />
-
-      <div className="fixed inset-0 overflow-hidden ">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-            <DialogPanel
-              transition
-              className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700"
-            >
-              <div className="flex h-full flex-col overflow-y-scroll bg-gradient-to-r from-black via-grey-600 to-gray-100 text-white shadow-lg">
-                <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                  <div className="flex items-start justify-between">
-                    <DialogTitle className="text-lg font-medium text-white">Shopping cart</DialogTitle>
-                    <div className="ml-3 flex h-7 items-center">
-                      <button
-                        type="button"
-                        onClick={handleClose}
-                        className="relative -m-2 p-2 text-white hover:text-white"
-                      >
-                        <span className="absolute -inset-0.5" />
-                        <span className="sr-only">Close panel</span>
-                        <XMarkIcon aria-hidden="true" className="size-6" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-8">
-                    <div className="flow-root">
-                      <ul role="list" className="-my-6 divide-y divide-gray-200">
-                        {products.map((product) => (
-                          <li key={product.id} className="flex py-6">
-                            <div className="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                              <img alt={product.imageAlt} src={product.imageSrc} className="size-full object-cover" />
-                            </div>
-
-                            <div className="ml-4 flex flex-1 flex-col">
-                              <div>
-                                <div className="flex justify-between text-base font-medium text-white">
-                                  <h3>
-                                    <a href={product.href}>{product.name}</a>
-                                  </h3>
-                                  <p className="ml-4">{product.price}</p>
-                                </div>
-                                <p className="mt-1 text-sm text-white">{product.color}</p>
-                              </div>
-                              <div className="flex flex-1 items-end justify-between text-sm">
-                                <p className="text-white">Qty {product.quantity}</p>
-
-                                <div className="flex">
-                                  <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                    Remove
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                  <div className="flex justify-between text-base font-medium text-white">
-                    <p>Subtotal</p>
-                    <p>$262.00</p>
-                  </div>
-                  <p className="mt-0.5 text-sm text-white">Shipping and taxes calculated at checkout.</p>
-                  <div className="mt-6">
-                    <a
-                      href="#"
-                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
-                    >
-                      Checkout
-                    </a>
-                  </div>
-                  <div className="mt-6 flex justify-center text-center text-sm text-white">
-                    <p>
-                      or{' '}
-                      <button
-                        type="button"
-                        onClick={handleClose}
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                      </button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </DialogPanel>
-          </div>
-        </div>
-      </div>
-    </Dialog>
+    <button
+      className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
   );
 }
+
+function Card({ children, className = "" }) {
+  return (
+    <div className={`bg-white shadow-md rounded-2xl ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+function CardContent({ children, className = "" }) {
+  return <div className={`p-4 ${className}`}>{children}</div>;
+}
+
+function CartPage() {
+  const { cart, updateQuantity, removeItem } = useCart();
+
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const shipping = subtotal > 0 ? 6.99 : 0;
+  const total = subtotal + shipping;
+
+  return (
+    <div className="bg-[#fefefe] min-h-screen p-4 md:p-10">
+      <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
+      {cart.length === 0 ? (
+        <div className="text-center py-20">
+          <img
+            src="/img/empty-cart.png"
+            alt="Empty cart"
+            className="mx-auto w-40 mb-4"
+          />
+          <p className="text-gray-500">
+            Your cart is empty. Start exploring handmade treasures.
+          </p>
+          <Button className="mt-4">Browse Products</Button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-2 space-y-4">
+            {cart.map((item) => (
+              // console.log(item)
+
+              <Card key={item.id} className="flex items-center p-4">
+                <img
+                  src={item.images?.[0]?.image_url || ""}
+                  alt={item.title}
+                  className="w-24 h-24 object-cover rounded-xl"
+                />
+                <div className="ml-4 flex-1">
+                  <h2 className="font-medium text-lg">{item.name}</h2>
+                  <p className="text-sm text-gray-500">${item.price}</p>
+                  <div className="flex items-center mt-2 space-x-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => updateQuantity(item.id, -1)}
+                    >
+                      -
+                    </Button>
+                    <span className="px-2">{item.quantity}</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => updateQuantity(item.id, 1)}
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeItem(item.id)}
+                >
+                  <Trash2 className="w-5 h-5 text-red-500" />
+                </Button>
+              </Card>
+            ))}
+          </div>
+
+          <div className="sticky top-6 h-fit">
+            <Card>
+              <CardContent className="space-y-4">
+                <h2 className="text-xl font-semibold">Summary</h2>
+                <div className="flex justify-between text-sm">
+                  <span>Subtotal</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>Shipping</span>
+                  <span>${shipping.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between font-semibold border-t pt-2">
+                  <span>Total</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+                <Button className="w-full" disabled={cart.length === 0}>
+                  Proceed to Checkout
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default CartPage;
