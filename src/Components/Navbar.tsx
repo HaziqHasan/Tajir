@@ -157,7 +157,7 @@ export default function Navbar() {
             <ShoppingCartIcon className="h-6 w-6" />
             {cart.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                {cart.length}
               </span>
             )}
           </button>
