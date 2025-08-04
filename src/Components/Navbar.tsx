@@ -84,14 +84,11 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    // localStorage.removeItem("accessToken");
-    // setIsLoggedIn(false);
     pageNavigate("/");
   };
 
   const handleLoginSuccess = (token) => {
     localStorage.setItem("token", token);
-    // setIsLoggedIn(true);
   };
 
   return (
