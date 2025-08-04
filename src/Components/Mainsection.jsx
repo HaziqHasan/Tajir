@@ -28,7 +28,7 @@ export default function Mainsection() {
     }
   }, [location]);
   return (
-    <div className="bg-white relative scroll-smooth pb-10">
+    <div className="bg-white relative scroll-smooth">
       <section id="home">
         <Home
           openLogin={() => setShowLogin(true)}
