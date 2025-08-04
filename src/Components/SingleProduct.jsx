@@ -26,7 +26,6 @@ export default function SingleProduct() {
         const res = await axios.get(
           `${API_BASE_URL}api/products/${productId}/`
         );
-        console.log("haziq", res.data);
 
         setProduct(res.data);
       } catch (err) {
@@ -44,7 +43,7 @@ export default function SingleProduct() {
 
   const cartItem = cart.find((item) => item.id === product.id);
   const inCartQty = cartItem?.quantity || 0;
-  const maxQty = product.stock_quantity;
+  const maxQty = Math.min(product.stock_quantity, 5);
 
   const handleAdd = () => {
     if (inCartQty < maxQty) addToCart(product);
