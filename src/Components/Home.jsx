@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform, useAnimation  } from "framer-motion";
+import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -23,7 +24,7 @@ const FloatingImage = ({ src, delay = 0 }) => {
         delay,
       }}
     >
-      <img src={src} alt="" className="w-full h-full object-cover "/>
+      <img src={src} alt="" className="w-full h-full object-cover " />
     </motion.div>
   );
 };
@@ -33,7 +34,6 @@ const AutoImageSlider = ({ images }) => {
   const [index, setIndex] = useState(0);
   const controls = useAnimation();
   const isResetting = useRef(false);
-
   // Clone the first image for seamless loop
   const extendedImages = [...images, images[0]];
 
@@ -46,22 +46,22 @@ const AutoImageSlider = ({ images }) => {
   }, []);
 
   useEffect(() => {
-   if (index === images.length) {
-  isResetting.current = true;
+    if (index === images.length) {
+      isResetting.current = true;
 
-  // Slide to the cloned first image
-  controls.start({
-    x: `-${index * 100}vw`,
-    transition: { ease: "easeInOut", duration: 0.8 },
-  }).then(() => {
-    // Wait for a bit before resetting
-    setTimeout(() => {
-      controls.set({ x: "0vw" }); // instantly reset
-      setIndex(1); // Start again smoothly from real first image
-      isResetting.current = false;
-    }, 1000); 
-  });
-} else if (!isResetting.current) {
+      // Slide to the cloned first image
+      controls.start({
+        x: `-${index * 100}vw`,
+        transition: { ease: "easeInOut", duration: 0.8 },
+      }).then(() => {
+        // Wait for a bit before resetting
+        setTimeout(() => {
+          controls.set({ x: "0vw" }); // instantly reset
+          setIndex(1); // Start again smoothly from real first image
+          isResetting.current = false;
+        }, 1000);
+      });
+    } else if (!isResetting.current) {
       controls.start({
         x: `-${index * 100}vw`,
         transition: { ease: "easeInOut", duration: 0.8 },
@@ -93,6 +93,8 @@ const AutoImageSlider = ({ images }) => {
 // Scroll-Animated Text Component
 const ScrollAnimatedText = () => {
   const ref = useRef(null);
+  const navigate = useNavigate()
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -109,17 +111,21 @@ const ScrollAnimatedText = () => {
       <p className="mt-4 text-xl text-black drop-shadow-sm">
         Discover our brand new summer collection, designed to turn heads and keep you cool under pressure.
       </p>
-      <a
-        href="/products"
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/productlist`);
+        }}
         className="inline-block mt-8 rounded-md border border-black bg-black px-8 py-3 text-center font-semibold text-white transition hover:bg-gray-900"
       >
         Shop Collection
-      </a>
+      </button>
     </motion.div>
   );
 };
 
 const Home = () => {
+
   const images = [
     "https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg",
     "https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg",
@@ -138,37 +144,37 @@ const Home = () => {
 
   return (
     <>
-     <div className="relative overflow-hidden bg-white sm:p-10 lg:p-8 text-black">
-  <div className="mx-auto max-w-7xl flex flex-col lg:flex-row items-center justify-center">
+      <div className="relative overflow-hidden bg-white sm:p-10 lg:p-8 text-black">
+        <div className="mx-auto max-w-7xl flex flex-col lg:flex-row items-center justify-center">
 
-    <div className="relative flex flex-col items-center justify-center bg-white sm:px-8 lg:px-10 w-full">
-
-     
-<div className="lg:hidden w-full flex flex-col items-center justify-center">
-  <AutoImageSlider images={images} />
-  <ScrollAnimatedText />
-</div>
+          <div className="relative flex flex-col items-center justify-center bg-white sm:px-8 lg:px-10 w-full">
 
 
-      {/* 👇 DESKTOP FLOATING LAYOUT 👇 */}
-      <div className="hidden lg:flex flex-col items-center justify-center w-full">
-        {/* Top Row - reversed */}
-        <div className="flex gap-6 flex-row-reverse mb-8">
-          <FloatingImage src={images[0]} delay={0} />
-          <FloatingImage src={images[1]} delay={0.2} />
-        </div>
+            <div className="lg:hidden w-full flex flex-col items-center justify-center">
+              <AutoImageSlider images={images} />
+              <ScrollAnimatedText />
+            </div>
 
-        {/* Middle Row - Side Images + Text */}
-        <div className="flex flex-row items-center justify-center gap-12 text-center m-5">
-          <FloatingImage src={images[2]} delay={0.4} />
-          <ScrollAnimatedText />
-          <FloatingImage src={images[3]} delay={0.6} />
+
+            {/* 👇 DESKTOP FLOATING LAYOUT 👇 */}
+            <div className="hidden lg:flex flex-col items-center justify-center w-full">
+              {/* Top Row - reversed */}
+              <div className="flex gap-6 flex-row-reverse mb-8">
+                <FloatingImage src={images[0]} delay={0} />
+                <FloatingImage src={images[1]} delay={0.2} />
+              </div>
+
+              {/* Middle Row - Side Images + Text */}
+              <div className="flex flex-row items-center justify-center gap-12 text-center m-5">
+                <FloatingImage src={images[2]} delay={0.4} />
+                <ScrollAnimatedText />
+                <FloatingImage src={images[3]} delay={0.6} />
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
-
-    </div>
-  </div>
-</div>
 
     </>
   );
