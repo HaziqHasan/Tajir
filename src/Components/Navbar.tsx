@@ -1,11 +1,19 @@
+// ✅ We are using global cart context here to show total quantity in the navbar cart icon badge
+
 import React, { useEffect, useState, useRef } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { BellIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  BellIcon,
+  Bars3Icon,
+  XMarkIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import { NavLink, useNavigate } from "react-router-dom";
 import LoginPage from "../SignIn&SingUp/LoginPage";
 import SignUpPage from "../SignIn&SingUp/SignUpPage";
 import LoginIcon from "../assets/icons/login_14018816.png";
 import { motion } from "framer-motion";
+import { useCart } from "../context/CartContext";
 
 type ScrollNavItem = {
   name: string;
@@ -30,6 +38,7 @@ const navigation: NavItem[] = [
 ];
 
 export default function Navbar() {
+  const { cart } = useCart();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
@@ -63,6 +72,9 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     pageNavigate("/");
+  };
+  const handlecart = () => {
+    pageNavigate("/cart");
   };
 
   const handleLoginSuccess = (token) => {
@@ -137,6 +149,17 @@ export default function Navbar() {
         <div className="flex items-center space-x-3">
           <button className="rounded-full p-2 hover:bg-white/10">
             <BellIcon className="h-6 w-6" />
+          </button>
+          <button
+            className="rounded-full p-2 hover:bg-white/10 relative"
+            onClick={handlecart}
+          >
+            <ShoppingCartIcon className="h-6 w-6" />
+            {cart.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+              </span>
+            )}
           </button>
 
           {isLoggedIn ? (

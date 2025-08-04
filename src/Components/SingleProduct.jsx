@@ -1,3 +1,5 @@
+// ✅ We are connecting the Add to Cart button with the global CartContext to add products to cart from single product page
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -8,12 +10,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import API_BASE_URL from "../Api/Api";
+import { useCart } from "../context/CartContext";
 
 export default function SingleProduct() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -83,6 +87,7 @@ export default function SingleProduct() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.05 }}
+            onClick={() => addToCart(product)}
             className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-xl text-md font-medium shadow-md"
           >
             Add to Cart
