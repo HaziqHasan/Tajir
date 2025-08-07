@@ -48,7 +48,7 @@ const ProductList = () => {
   return (
     <div className="bg-white min-h-screen py-12 px-4 md:px-10">
       <h1 className="text-3xl md:text-4xl font-bold text-center mb-10 text-black">
-        All Products
+      
       </h1>
 
       {loading ? (

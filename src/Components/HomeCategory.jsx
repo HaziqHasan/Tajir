@@ -50,10 +50,10 @@ const displayedProducts = ensureMinSlides(products, 6);
           Explore Our Collection
         </h2>
 
-       <div className="relative">
-  {/* Custom Navigation Buttons */}
-  <div className="swiper-button-prev custom-prev"></div>
-  <div className="swiper-button-next custom-next"></div>
+  <div className="relative z-10"> {/* Ensure Swiper is behind navbar */}
+  {/* Navigation Buttons */}
+  <div className="swiper-button-prev custom-prev absolute top-1/2 left-0 transform -translate-y-1/2 z-10" />
+  <div className="swiper-button-next custom-next absolute top-1/2 right-0 transform -translate-y-1/2 z-10" />
 
 <Swiper
   modules={[Navigation]}
