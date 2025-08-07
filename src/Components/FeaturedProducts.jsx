@@ -33,7 +33,7 @@ const FeaturedProducts = () => {
     const fetchFeatured = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}api/products/`);
-        setProducts(res.data.slice(0,4));
+        setProducts(res.data.slice(0, 3));
       } catch (err) {
         console.error("Error fetching featured products:", err);
       }
@@ -52,37 +52,36 @@ const FeaturedProducts = () => {
       ) : (
         <>
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {products.map((product) => (
               <div
                 key={product.id}
                 onClick={() => navigate(`/productpage/${product.id}`)}
-                className="flex flex-col items-center gap-6 p-6 md:flex-row md:gap-8 rounded-2xl bg-white shadow-md cursor-pointer transition-transform hover:scale-[1.03]"
+                className="flex flex-col items-center gap-4 p-4 rounded-2xl bg-white shadow-md cursor-pointer transition-transform hover:scale-[1.03]"
               >
-                <div>
-                  <img
-                    src={
-                      product.images?.[0]?.image_url ||
-                      "https://via.placeholder.com/200"
-                    }
-                    alt={product.title}
-                    className="w-48 h-48 shadow-xl rounded-md object-cover"
-                  />
-                </div>
+                {/* Product Image */}
+                <img
+                  src={
+                    product.images?.[0]?.image_url || "https://via.placeholder.com/400"
+                  }
+                  alt={product.title}
+                  className="w-full h-72 object-cover rounded-xl shadow-lg"
+                />
 
-                <div className="flex flex-col items-center md:items-start gap-2">
-                  <h3 className="text-2xl font-medium text-gray-800">
+                {/* Product Content */}
+                <div className="flex flex-col items-center gap-1 px-2 text-center">
+                  <h3 className="text-xl font-semibold text-gray-800">
                     {product.title || "Untitled"}
                   </h3>
                   <span className="font-medium text-sky-500">
                     {product.category || "Product"}
                   </span>
-                  <span className="flex gap-2 font-medium text-gray-600">
+                  <span className="flex gap-2 font-medium text-gray-800">
                     <span>₹{product.price || "0"}</span>
                     <span>·</span>
                     <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
                   </span>
-                  <p className="text-sm text-gray-500 mt-2 line-clamp-2 text-center md:text-left">
+                  <p className="text-sm text-black mt-1 line-clamp-2">
                     {product.description || "No description available."}
                   </p>
                   <button
@@ -90,12 +89,13 @@ const FeaturedProducts = () => {
                       e.stopPropagation();
                       navigate(`/productpage/${product.id}`);
                     }}
-                    className="mt-4 bg-black text-white px-4 py-1 rounded-lg hover:bg-gray-800 transition-all"
+                    className="mt-3 bg-[#F5ede5]  text-black px-4 py-1 rounded-lg hover:bg-[#F5ede5] transition-all"
                   >
                     View
                   </button>
                 </div>
               </div>
+
             ))}
           </div>
 
@@ -103,7 +103,7 @@ const FeaturedProducts = () => {
           <div className="mt-10 flex justify-center">
             <button
               onClick={() => navigate("/productlist")}
-              className="px-6 py-2 text-sm font-medium text-white bg-black border border-black rounded-md hover:bg-white hover:text-black transition-all"
+              className="px-6 py-2 text-sm font-medium bg-[#F5ede5]  text-black  rounded-md hover:bg-white hover:text-black transition-all"
             >
               View All Products
             </button>

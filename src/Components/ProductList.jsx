@@ -48,7 +48,7 @@ const ProductList = () => {
   return (
     <div className="bg-white min-h-screen py-12 px-4 md:px-10">
       <h1 className="text-3xl md:text-4xl font-bold text-center mb-10 text-black">
-      
+
       </h1>
 
       {loading ? (
@@ -66,34 +66,29 @@ const ProductList = () => {
               variants={cardVariants}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="flex flex-col items-center gap-6 p-7 md:flex-row md:gap-8 rounded-2xl bg-white shadow-md cursor-pointer transition-transform"
+              className="flex flex-col items-center gap-6 p-6 rounded-2xl bg-white shadow-md cursor-pointer transition-transform"
               onClick={() => navigate(`/productpage/${product.id}`)}
             >
               {/* Product Image */}
-              <div>
-                <img
-                  src={product.images[0]?.image_url || "/placeholder.jpg"}
-                  alt={product.title}
-                  className="size-48 shadow-xl rounded-md object-cover"
-                />
-              </div>
+              <img
+                src={product.images[0]?.image_url || "/placeholder.jpg"}
+                alt={product.title}
+                className="w-full h-72 object-cover rounded-xl shadow-lg"
+              />
 
               {/* Product Content */}
-              <div className="flex flex-col items-center md:items-start gap-2">
-                <h2 className="text-2xl font-medium text-gray-800">{product.title}</h2>
-                <span className="font-medium text-sky-500">{product.category || "Product"}</span>
-                <span className="flex gap-2 font-medium text-gray-600 dark:text-gray-400">
+              <div className="flex flex-col items-center gap-2 px-2">
+                <h2 className="text-2xl font-medium text-black text-center">{product.title}</h2>
+                <span className="flex gap-2 font-medium text-black dark:text-black">
                   <span>₹{product.price}</span>
                   <span>·</span>
                   <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
                 </span>
-                <p className="text-sm text-gray-500 mt-2 line-clamp-2 text-center md:text-left">
+                <p className="text-shadow-md text-black mt-2 line-clamp-2 text-center">
                   {product.description}
                 </p>
-
-                {/* View Button */}
                 <button
-                  className="mt-4 bg-black text-white px-4 py-1 rounded-lg hover:bg-gray-800 transition-all"
+                  className="mt-4 bg-[#F5ede5]  text-black px-4 py-1 rounded-lg hover:bg-[#F5ede5] transition-all"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent parent click
                     navigate(`/productpage/${product.id}`);
@@ -103,6 +98,7 @@ const ProductList = () => {
                 </button>
               </div>
             </motion.div>
+
           ))}
         </div>
       )}

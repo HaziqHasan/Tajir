@@ -84,10 +84,10 @@ function CartPage() {
             alt="Empty cart"
             className="w-40 h-40 object-contain mb-6"
           />
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">
+          <h2 className="text-xl font-semibold text-black mb-2">
             Your Cart is Empty
           </h2>
-          <p className="text-gray-500 max-w-md">
+          <p className="text-black max-w-md">
             Looks like you haven’t added anything yet. Explore our handmade art collection!
           </p>
           <Button className="mt-6">Browse Products</Button>
@@ -169,7 +169,7 @@ function CartPage() {
                     <div className="text-sm mb-3">
                       <span className="font-semibold text-gray-900 mr-2">₹{product.price}</span>
                       {product.mrp && (
-                        <span className="line-through text-gray-400 text-xs">₹{product.mrp}</span>
+                        <span className="line-through text-gray-800 text-xs">₹{product.mrp}</span>
                       )}
                     </div>
 
@@ -192,11 +192,11 @@ function CartPage() {
             <Card>
               <CardContent className="space-y-4 p-6">
                 <h2 className="text-lg font-semibold  pb-2">Order Summary</h2>
-                <div className="flex justify-between text-sm text-gray-600">
+                <div className="flex justify-between text-sm text-black">
                   <span>Subtotal</span>
                   <span>₹{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm text-gray-600">
+                <div className="flex justify-between text-sm text-gray-800">
                   <span>Shipping</span>
                   <span>₹{shipping.toFixed(2)}</span>
                 </div>

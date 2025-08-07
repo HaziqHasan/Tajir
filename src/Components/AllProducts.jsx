@@ -48,7 +48,7 @@ export default function AllProducts() {
 
   return (
     <div className="pt-20 min-h-screen bg-gray-50 px-4 py-10">
-     
+
 
       {products.length === 0 ? (
         <p className="text-center text-gray-400">No products found.</p>
@@ -72,19 +72,19 @@ export default function AllProducts() {
                 <img
                   src={product.images[0]?.image_url || "/placeholder.jpg"}
                   alt={product.name}
-                  className="size-48 shadow-xl rounded-md object-cover"
+                  className="w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 shadow-xl rounded-md object-cover"
                 />
               </div>
 
               <div className="flex flex-col items-center md:items-start gap-2">
-                <span className="text-2xl font-medium text-gray-800">{product.name}</span>
+                <span className="text-2xl font-medium text-black">{product.name}</span>
                 <span className="font-medium text-sky-500">{product.category || "Product"}</span>
-                <span className="flex gap-2 font-medium text-gray-600 dark:text-gray-400">
+                <span className="flex gap-2 font-medium text-gray-800 dark:text-gray-400">
                   <span>₹{product.price}</span>
                   <span>·</span>
                   <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
                 </span>
-                <p className="text-sm text-gray-500 mt-2 line-clamp-2 text-center md:text-left">
+                <p className="text-sm text-gray-800 mt-2 line-clamp-2 text-center md:text-left">
                   {product.description}
                 </p>
               </div>

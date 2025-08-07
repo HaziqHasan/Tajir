@@ -90,15 +90,15 @@ export default function SingleProduct() {
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             {product.name}
           </h2>
-          <p className="text-gray-600 mb-4 text-sm">
+          <p className="text-gray-800 mb-4 text-sm">
             Category: #{product.category}
           </p>
-          <p className="text-gray-700 text-lg mb-4">{product.description}</p>
+          <p className="text-black text-lg mb-4">{product.description}</p>
           <div className="flex items-center gap-4 mb-4">
             <span className="text-2xl font-bold text-green-600">
               ₹{product.price}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-800">
               {product.stock_quantity} in stock
             </span>
           </div>
