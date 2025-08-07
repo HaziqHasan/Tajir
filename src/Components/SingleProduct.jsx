@@ -26,6 +26,7 @@ export default function SingleProduct() {
         const res = await axios.get(
           `${API_BASE_URL}api/products/${productId}/`
         );
+        console.log(res.data.product, "asdfghjklxcvbn");
 
         setProduct(res.data);
       } catch (err) {
