@@ -8,7 +8,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "../SwiperCustom.css";
 
-
 export default function HomeCategory() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -16,7 +15,7 @@ export default function HomeCategory() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/categories/`);
+        const response = await axios.get(`${API_BASE_URL}api/categories/`);
         setProducts(response.data);
       } catch (error) {
         console.error("Failed to load products", error);
@@ -29,20 +28,18 @@ export default function HomeCategory() {
     navigate(`/allproducts/${product.id}`, { state: { product } });
   };
 
-const ensureMinSlides = (items, minCount = 6) => {
-  if (!items || items.length === 0) return []; // prevent infinite loop
-  let result = [...items];
-  while (result.length < minCount) {
-    result = [...result, ...items];
-    if (result.length > 20) break; // safety break
-  }
-  return result.slice(0, minCount);
-};
+  const ensureMinSlides = (items, minCount = 6) => {
+    if (!items || items.length === 0) return []; // prevent infinite loop
+    let result = [...items];
+    while (result.length < minCount) {
+      result = [...result, ...items];
+      if (result.length > 20) break; // safety break
+    }
+    return result.slice(0, minCount);
+  };
 
-const displayedProducts = ensureMinSlides(products, 6);
+  const displayedProducts = ensureMinSlides(products, 6);
 
-
-  
   return (
     <div className="min-100% pb-10 bg-white font-serif">
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -50,56 +47,55 @@ const displayedProducts = ensureMinSlides(products, 6);
           Explore Our Collection
         </h2>
 
-  <div className="relative z-10"> {/* Ensure Swiper is behind navbar */}
-  {/* Navigation Buttons */}
-  <div className="swiper-button-prev custom-prev absolute top-1/2 left-0 transform -translate-y-1/2 z-10" />
-  <div className="swiper-button-next custom-next absolute top-1/2 right-0 transform -translate-y-1/2 z-10" />
-
-<Swiper
-  modules={[Navigation]}
-  navigation={{
-    nextEl: ".custom-next",
-    prevEl: ".custom-prev",
-  }}
-  centeredSlides={true}
- loop={displayedProducts.length > 1}   grabCursor={true}
-  spaceBetween={30}
-  slidesPerView={1.2}
-  breakpoints={{
-    640: { slidesPerView: 1.5 },
-    768: { slidesPerView: 2.2 },
-    1024: { slidesPerView: 2.8 },
-    1280: { slidesPerView: 3.2 },
-  }}
-  className="custom-swiper"
->
-  {displayedProducts.map((product, index) => (
-    <SwiperSlide key={`${product.id}-${index}`}>
-      <div
-        onClick={() => handleClick(product)}
-        className="card w-full h-full group cursor-pointer rounded-2xl bg-white p-4 shadow-xl transition-all duration-300"
-      >
-        <div className="relative overflow-hidden rounded-xl">
-          <img
-            src={product.images}
-            alt={product.name}
-            className="w-full h-40 object-cover mb-2 rounded-lg shadow-md"
-          />
+        <div className="relative z-10">
+          {" "}
+          {/* Ensure Swiper is behind navbar */}
+          {/* Navigation Buttons */}
+          <div className="swiper-button-prev custom-prev absolute top-1/2 left-0 transform -translate-y-1/2 z-10" />
+          <div className="swiper-button-next custom-next absolute top-1/2 right-0 transform -translate-y-1/2 z-10" />
+          <Swiper
+            modules={[Navigation]}
+            navigation={{
+              nextEl: ".custom-next",
+              prevEl: ".custom-prev",
+            }}
+            centeredSlides={true}
+            loop={displayedProducts.length > 1}
+            grabCursor={true}
+            spaceBetween={30}
+            slidesPerView={1.2}
+            breakpoints={{
+              640: { slidesPerView: 1.5 },
+              768: { slidesPerView: 2.2 },
+              1024: { slidesPerView: 2.8 },
+              1280: { slidesPerView: 3.2 },
+            }}
+            className="custom-swiper"
+          >
+            {displayedProducts.map((product, index) => (
+              <SwiperSlide key={`${product.id}-${index}`}>
+                <div
+                  onClick={() => handleClick(product)}
+                  className="card w-full h-full group cursor-pointer rounded-2xl bg-white p-4 shadow-xl transition-all duration-300"
+                >
+                  <div className="relative overflow-hidden rounded-xl">
+                    <img
+                      src={product.images}
+                      alt={product.name}
+                      className="w-full h-40 object-cover mb-2 rounded-lg shadow-md"
+                    />
+                  </div>
+                  <div className="mt-4 text-center">
+                    <h3 className="text-lg font-semibold text-black group-hover:underline">
+                      {product.name}
+                    </h3>
+                    <p className="text-sm text-black">{product.description}</p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-        <div className="mt-4 text-center">
-          <h3 className="text-lg font-semibold text-black group-hover:underline">
-            {product.name}
-          </h3>
-          <p className="text-sm text-black">{product.description}</p>
-        </div>
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
-
-
-</div>
-
       </div>
     </div>
   );
