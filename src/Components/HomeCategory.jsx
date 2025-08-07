@@ -80,7 +80,7 @@ export default function HomeCategory() {
                 >
                   <div className="relative overflow-hidden rounded-xl">
                     <img
-                      src={product.images}
+                      src={product.images["small"]}
                       alt={product.name}
                       className="w-full h-40 object-cover mb-2 rounded-lg shadow-md"
                     />
