@@ -75,7 +75,7 @@ export default function Navbar() {
     <>
       {/* Top Navbar */}
       <nav
-        className={`bg-[#F5ede5]  text-black font-serif fixed top-0 left-0 w-full z-50 h-14 xl:h-18  transition-transform duration-300 ${showNavbar ? "translate-y-0" : "-translate-y-full"} flex items-center justify-between px-8 py-4 shadow-lg shadow-gray-800/20 `}
+        className={`bg-[#F5ede5]  text-black font-serif fixed top-0 left-0 w-full z-50 h-14 xl:h-18  transition-transform duration-300 ${showNavbar ? "translate-y-0" : "-translate-y-full"} flex items-center justify-between px-8 py-4 shadow-lg shadow-gray-800/20 mb-3`}
       >
         {/* Sidebar Toggle */}
         <div>
@@ -172,7 +172,7 @@ export default function Navbar() {
                           e.preventDefault();
                           handleScroll(item.targetId);
                         }}
-                        className="text-lg font-medium text-gray-800 hover:text-amber-600 transition-all"
+                        className="text-lg font-medium text-black hover:text-amber-600 transition-all"
                       >
                         {item.name}
                       </NavLink>
@@ -180,7 +180,7 @@ export default function Navbar() {
                       <NavLink
                         to={item.path}
                         onClick={() => setSidebarOpen(false)}
-                        className="text-lg font-medium text-gray-800 hover:text-amber-600 transition-all"
+                        className="text-lg font-medium text-black hover:text-amber-600 transition-all"
                       >
                         {item.name}
                       </NavLink>
@@ -208,7 +208,7 @@ export default function Navbar() {
                         setSidebarOpen(false);
                         setShowLoginModal(true);
                       }}
-                      className="text-left text-gray-800 hover:text-blue-600 text-md"
+                      className="text-left text-black hover:text-blue-600 text-md"
                     >
                       Login
                     </button>
@@ -217,7 +217,7 @@ export default function Navbar() {
                         setSidebarOpen(false);
                         setShowSignupModal(true);
                       }}
-                      className="text-left text-gray-800 hover:text-green-600 text-md"
+                      className="text-left text-black hover:text-green-600 text-md"
                     >
                       Sign Up
                     </button>

@@ -22,7 +22,7 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="bg-gradient-to-br from-[#f7f1e8] to-[#e7d5c6] text-black font-serif"
+      className="bg-[#F5ede5] text-black font-serif"
     >
       <motion.div
         className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10 text-sm"
@@ -101,8 +101,8 @@ export default function Footer() {
       </motion.div>
 
       {/* Sliding Text */}
-      <div className="bg-black py-3 overflow-hidden">
-        <div className="animate-slide whitespace-nowrap text-sm text-center text-white font-medium tracking-wide">
+      <div className="bg-[#F5ede5] py-3 overflow-hidden">
+        <div className="animate-slide whitespace-nowrap text-sm text-center text-black font-medium tracking-wide">
           Thank you for supporting handmade. • Unique | Artistic | Sustainable • Made with ❤ for creative souls.
         </div>
       </div>
