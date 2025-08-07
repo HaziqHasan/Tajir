@@ -47,10 +47,8 @@ export default function AllProducts() {
   if (error) return <p className="text-center py-10 text-red-500">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-10">
-      <h2 className="text-3xl font-bold text-gray-700 text-center mb-10">
-        Products in Category #{categoryId}
-      </h2>
+    <div className="pt-20 min-h-screen bg-gray-50 px-4 py-10">
+     
 
       {products.length === 0 ? (
         <p className="text-center text-gray-400">No products found.</p>

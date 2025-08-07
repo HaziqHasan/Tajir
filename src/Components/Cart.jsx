@@ -1,10 +1,11 @@
-// ✅ This page displays the list of products added to the cart with their quantities, totals, and allows modification/removal.
-// We used a global CartContext so cart syncs with SingleProduct page and survives navigation.
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Trash2 } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import API_BASE_URL from "../Api/Api";
 
+// ✅ Button Component
 function Button({
   children,
   className = "",
@@ -14,13 +15,13 @@ function Button({
 }) {
   const base = "rounded-xl transition font-medium";
   const variants = {
-    default: "bg-indigo-600 text-white hover:bg-indigo-700",
-    outline: "border border-gray-300 text-gray-800 hover:bg-gray-100",
+    default: "bg-black text-white hover:bg-gray-900",
+    outline: " text-gray-800 hover:bg-gray-100",
     ghost: "text-gray-600 hover:bg-gray-100",
   };
   const sizes = {
-    sm: "px-2 py-1 text-sm",
-    md: "px-4 py-2",
+    sm: "px-3 py-1 text-sm",
+    md: "px-5 py-2",
     icon: "p-2",
   };
   return (
@@ -33,21 +34,24 @@ function Button({
   );
 }
 
+// ✅ Card Wrapper
 function Card({ children, className = "" }) {
   return (
-    <div className={`bg-white shadow-md rounded-2xl ${className}`}>
+    <div className={`bg-white rounded-xl shadow  ${className}`}>
       {children}
     </div>
   );
 }
 
+// ✅ Card Inner Padding
 function CardContent({ children, className = "" }) {
   return <div className={`p-4 ${className}`}>{children}</div>;
 }
 
 function CartPage() {
   const { cart, updateQuantity, removeItem } = useCart();
-
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -55,37 +59,57 @@ function CartPage() {
   const shipping = subtotal > 0 ? 6.99 : 0;
   const total = subtotal + shipping;
 
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}api/products/`);
+        setProducts(res.data.slice(0, 4));
+      } catch (err) {
+        console.error("Error fetching featured products:", err);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
-    <div className="bg-[#fefefe] min-h-screen p-4 md:p-10">
-      <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
+    <div className="bg-[#fafafa] min-h-screen p-4 md:p-10">
+  <div className="max-w-5xl mx-auto">
+    <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
+
+      {/* Empty Cart */}
       {cart.length === 0 ? (
-        <div className="text-center py-20">
+        <div className="flex flex-col items-center justify-center text-center py-24 px-4 bg-gray-50 rounded-lg  shadow-sm">
           <img
             src="/img/empty-cart.png"
             alt="Empty cart"
-            className="mx-auto w-40 mb-4"
+            className="w-40 h-40 object-contain mb-6"
           />
-          <p className="text-gray-500">
-            Your cart is empty. Start exploring handmade treasures.
+          <h2 className="text-xl font-semibold text-gray-700 mb-2">
+            Your Cart is Empty
+          </h2>
+          <p className="text-gray-500 max-w-md">
+            Looks like you haven’t added anything yet. Explore our handmade art collection!
           </p>
-          <Button className="mt-4">Browse Products</Button>
+          <Button className="mt-6">Browse Products</Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Cart Items */}
           <div className="md:col-span-2 space-y-4">
-            {cart.map((item) => (
-              // console.log(item)
 
-              <Card key={item.id} className="flex items-center p-4">
-                <img
+            {cart.map((item) => (
+              <Card
+                key={item.id}
+                className="bg-white shadow-sm rounded-lg p-4 flex items-start gap-4"
+              >                <img
                   src={item.images?.[0]?.image_url || ""}
                   alt={item.title}
-                  className="w-24 h-24 object-cover rounded-xl"
+                  className="w-24 h-24 object-cover rounded-lg "
                 />
-                <div className="ml-4 flex-1">
-                  <h2 className="font-medium text-lg">{item.name}</h2>
-                  <p className="text-sm text-gray-500">${item.price}</p>
-                  <div className="flex items-center mt-2 space-x-2">
+                <div className="flex-1">
+                  <h2 className="font-medium text-base mb-1">{item.name}</h2>
+                  <p className="text-gray-500 text-sm mb-2">₹{item.price}</p>
+                  <div className="flex items-center gap-2">
                     <Button
                       size="sm"
                       variant="outline"
@@ -101,44 +125,95 @@ function CartPage() {
                     >
                       +
                     </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeItem(item.id)}
+                      className="ml-auto"
+                    >
+                      <Trash2 className="w-5 h-5 text-red-500" />
+                    </Button>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeItem(item.id)}
-                >
-                  <Trash2 className="w-5 h-5 text-red-500" />
-                </Button>
               </Card>
             ))}
+
+            {/* Recommended Products */}
+            <div className="mt-12">
+              <h2 className="text-xl font-semibold mb-4">Some Recommended Products</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {products.map((product) => (
+                  <div
+                    key={product.id}
+                    className=" rounded-lg p-3 shadow-sm hover:shadow-md bg-white transition"
+                  >
+                    {/* Category Label */}
+                    <span className="inline-block text-xs bg-black text-white px-2 py-0.5 rounded mb-2">
+                      {product.category || "Product"}
+                    </span>
+
+                    {/* Product Image */}
+                    <img
+                      src={product.images?.[0]?.image_url}
+                      alt={product.title}
+                      className="w-full h-40 object-cover rounded mb-2"
+                    />
+
+                    {/* Title */}
+                    <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                      {product.title || "Untitled Product"}
+                    </h3>
+
+                    {/* Price with MRP */}
+                    <div className="text-sm mb-3">
+                      <span className="font-semibold text-gray-900 mr-2">₹{product.price}</span>
+                      {product.mrp && (
+                        <span className="line-through text-gray-400 text-xs">₹{product.mrp}</span>
+                      )}
+                    </div>
+
+                    {/* Add To Cart */}
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="w-full bg-black text-white text-sm py-2 rounded hover:bg-gray-800"
+                    >
+                      Add To Cart
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
 
+          {/* Summary Section */}
           <div className="sticky top-6 h-fit">
             <Card>
-              <CardContent className="space-y-4">
-                <h2 className="text-xl font-semibold">Summary</h2>
-                <div className="flex justify-between text-sm">
+              <CardContent className="space-y-4 p-6">
+                <h2 className="text-lg font-semibold  pb-2">Order Summary</h2>
+                <div className="flex justify-between text-sm text-gray-600">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>₹{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm text-gray-600">
                   <span>Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>₹{shipping.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between font-semibold border-t pt-2">
+                <div className="flex justify-between text-base font-semibold  pt-2">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>₹{total.toFixed(2)}</span>
                 </div>
-                <Button className="w-full" disabled={cart.length === 0}>
-                  Proceed to Checkout
+                <Button className="w-full mt-2" disabled={cart.length === 0}>
+                  Check Out
                 </Button>
               </CardContent>
             </Card>
           </div>
         </div>
       )}
-    </div>
+     </div> 
+</div>
   );
 }
 

@@ -64,105 +64,107 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
     <AnimatePresence>
       <motion.div
         key="signup-backdrop"
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[oklch(0.95_0.01_67.52)]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <motion.div
-          key="signup-modal"
-          initial={{ y: -30, opacity: 0, scale: 0.95 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          exit={{ y: 30, opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          className="relative w-full max-w-md mx-auto bg-white/90 backdrop-blur-md rounded-xl shadow-xl px-6 py-8 border border-gray-200"
-        >
-          <button
-            onClick={() => {
-              if (typeof onClose === "function") onClose();
-            }}
-            className="absolute top-2 right-3 text-gray-500 text-xl hover:text-gray-700"
-          >
-            ×
-          </button>
-          <h2 className="text-2xl text-center font-semibold mb-6">Sign Up</h2>
+      <motion.div
+  key="signup-modal"
+  initial={{ y: -30, opacity: 0, scale: 0.95 }}
+  animate={{ y: 0, opacity: 1, scale: 1 }}
+  exit={{ y: 30, opacity: 0, scale: 0.95 }}
+  transition={{ duration: 0.25, ease: "easeOut" }}
+  className="relative w-full max-w-md mx-auto bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] px-6 py-8 border border-[#e9dccb] font-playfair"
+>
+  <button
+    onClick={onClose}
+    className="absolute top-2 right-3 text-[#c3a27d] text-xl hover:text-[#a5865f]"
+  >
+    ×
+  </button>
 
-          <form onSubmit={handleSignUp} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-              />
-            </div>
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-            />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-            />
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-400 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-            />
+  <h2 className="text-2xl text-center font-semibold mb-6 text-[#1f1f1f]">
+    Sign Up
+  </h2>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded text-lg font-semibold"
-            >
-              {loading ? "Creating Account..." : "Sign Up"}
-            </button>
-          </form>
+  <form onSubmit={handleSignUp} className="space-y-4">
+    <div className="grid grid-cols-2 gap-4">
+      <input
+        type="text"
+        placeholder="First Name"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        required
+        className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+      />
+      <input
+        type="text"
+        placeholder="Last Name"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        required
+        className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none  "
+      />
+    </div>
 
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Already have an account?{" "}
-            <button
-              onClick={() => {
-                if (typeof onClose === "function") onClose();
-                setTimeout(() => {
-                  if (typeof onSwitchToLogin === "function") onSwitchToLogin();
-                }, 300);
-              }}
-              className="border border-gray-500 text-gray-800 px-6 py-2 rounded hover:bg-gray-100 transition"
-            >
-              Login instead
-            </button>
-          </p>
-        </motion.div>
+    <input
+      type="email"
+      placeholder="Email Address"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      required
+      className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+    />
+    <input
+      type="tel"
+      placeholder="Phone Number"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+      required
+      className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+      className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+    />
+    <input
+      type="password"
+      placeholder="Confirm Password"
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+      required
+      className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+    />
+
+    <button
+      type="submit"
+      disabled={loading}
+      className="w-full bg-black text-white py-2 rounded text-lg font-semibold transition duration-200 hover:bg-[#f5ede5] hover:text-black"
+    >
+      {loading ? "Creating Account..." : "Sign Up"}
+    </button>
+  </form>
+
+  <p className="mt-6 text-center text-sm text-gray-700">
+    Already have an account?
+    <button
+      onClick={() => {
+        if (typeof onClose === "function") onClose();
+        setTimeout(() => {
+          if (typeof onSwitchToLogin === "function") onSwitchToLogin();
+        }, 300);
+      }}
+      className="ml-3 border border-black text-[#333] px-6 py-1.5 rounded hover:bg-[#f7efe5] transition"
+    >
+      Login 
+    </button>
+  </p>
+</motion.div>
       </motion.div>
     </AnimatePresence>
   );
