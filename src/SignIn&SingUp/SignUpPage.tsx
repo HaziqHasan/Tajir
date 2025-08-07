@@ -8,6 +8,7 @@ interface SignUpPageProps {
   onClose?: () => void;
   onSwitchToLogin?: () => void;
 }
+
 const SignUpPage: React.FC<SignUpPageProps> = ({
   onClose,
   onSwitchToLogin,
@@ -39,7 +40,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
         email,
         phone_no: phone,
         password,
-        role: 2,
+        role: 5,
       });
 
       const loginRes = await axios.post(`${API_BASE_URL}api/token/`, {
