@@ -22,7 +22,7 @@ const About = () => {
   return (
     <div
       ref={sectionRef}
-      className="bg-black text-white p-10 flex flex-col items-center text-center font-sans"
+      className="bg-[#F5ede5]  text-black p-10 flex flex-col items-center text-center font-sans"
     >
       <motion.div
         className="max-w-4xl"
@@ -40,7 +40,7 @@ const About = () => {
 
         {/* Description */}
         <motion.p
-          className="text-lg md:text-xl text-gray-300 mb-10 font-light"
+          className="text-lg md:text-xl text-black mb-10 font-light"
           variants={fadeUp}
         >
           At <span className="text-pink-400 font-serif">ArtCraft</span>, creativity meets craftsmanship. Explore one-of-a-kind handmade pieces crafted with heart and soul by talented local artists.
@@ -54,7 +54,7 @@ const About = () => {
 
         {/* Our Journey Section */}
         <motion.h2
-          className="text-3xl font-bold text-white font-serif mb-4"
+          className="text-3xl font-bold text-black font-serif mb-4"
           variants={fadeUp}
         >
           Our Journey

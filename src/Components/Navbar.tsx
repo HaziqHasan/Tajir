@@ -1,5 +1,3 @@
-// Complete Navbar with Sidebar (Visible on all screen sizes)
-
 import React, { useEffect, useState, useRef } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { BellIcon, Bars3Icon, ShoppingCartIcon } from "@heroicons/react/24/outline";
@@ -7,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import LoginPage from "../SignIn&SingUp/LoginPage";
 import SignUpPage from "../SignIn&SingUp/SignUpPage";
 import LoginIcon from "../assets/icons/login_14018816.png";
+import TajirIcon from "../assets/icons/TajirIcon.png"
 import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 
@@ -41,13 +40,16 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     pageNavigate("/");
+    alert("Logged out successful!");
   };
+
   const handlecart = () => {
     pageNavigate("/cart");
   };
 
   const handleLoginSuccess = (token) => {
     localStorage.setItem("accessToken", token);
+    alert("Login successful!");
   };
 
   const sidebarVariants = {
@@ -74,7 +76,7 @@ export default function Navbar() {
     <>
       {/* Top Navbar */}
       <nav
-        className={`bg-black text-white font-serif fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${showNavbar ? "translate-y-0" : "-translate-y-full"} flex items-center justify-between px-6 py-2`}
+        className={`bg-[#F5ede5]  text-black font-serif fixed top-0 left-0 w-full z-50 h-14 xl:h-18  transition-transform duration-300 ${showNavbar ? "translate-y-0" : "-translate-y-full"} flex items-center justify-between px-8 py-4 shadow-lg shadow-gray-800/20 `}
       >
         {/* Sidebar Toggle */}
         <div>
@@ -87,40 +89,19 @@ export default function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <div className="hidden sm:flex space-x-6">
-          {navigation.map((item) =>
-            item.type === "scroll" ? (
-              <NavLink
-                key={item.name}
-                to="/"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleScroll(item.targetId);
-                }}
-                className="text-sm font-light hover:text-amber-400"
-              >
-                {item.name}
-              </NavLink>
-            ) : (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                className="text-sm font-light hover:text-amber-400"
-              >
-                {item.name}
-              </NavLink>
-            )
-          )}
-        </div>
 
         {/* Logo */}
-        <div className="text-2xl font-bold tracking-wider text-white">
-          <i>Tajir</i>
+        <div>
+          <img
+            src={TajirIcon}
+            alt="Tajir"
+            className="h-20  xl:h-40 object-contain"
+          />
         </div>
 
         {/* Right Icons */}
         <div className="flex items-center space-x-3">
-         
+
           <button
             className="rounded-full p-2 hover:bg-white/10 relative"
             onClick={handlecart}
@@ -134,34 +115,13 @@ export default function Navbar() {
           </button>
 
           {isLoggedIn ? (
-            <Menu as="div" className="relative">
-              <MenuButton className="rounded-full bg-white/10">
-                <img
-                  alt="User"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-                  className="h-8 w-8 rounded-full"
-                />
-              </MenuButton>
-              <MenuItems className="absolute right-0 mt-2 w-48 rounded-md bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5 z-50">
-                <MenuItem>
-                  {({ active }) => (
-                    <NavLink to="/profile" className={`block px-4 py-2 text-sm ${active ? "bg-gray-100" : ""}`}>
-                      Your Profile
-                    </NavLink>
-                  )}
-                </MenuItem>
-                <MenuItem>
-                  {({ active }) => (
-                    <button
-                      onClick={handleLogout}
-                      className={`w-full text-left px-4 py-2 text-sm ${active ? "bg-gray-100" : ""}`}
-                    >
-                      Sign out
-                    </button>
-                  )}
-                </MenuItem>
-              </MenuItems>
-            </Menu>
+           <div className="flex items-center space-x-3">
+  <img
+    alt="User"
+    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+    className="h-8 w-8 rounded-full"
+  />
+</div>
           ) : (
             <button
               onClick={() => setShowLoginModal(true)}
@@ -170,133 +130,138 @@ export default function Navbar() {
               <img src={LoginIcon} alt="Login" className="h-8 w-8" />
             </button>
           )}
-        </div>
-      </nav>
+        </div >
+      </nav >
 
-      {/* Sidebar (Always active on all screens when open) */}
-{sidebarOpen && (
-  <div className="fixed inset-0 z-50 flex">
-    {/* Sidebar - placed first to be on the left */}
-    <motion.div
-      initial={{ x: -300 }}
-      animate={{ x: 0 }}
-      exit={{ x: -300 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="w-[85%] sm:w-[60%] lg:w-[35%] h-full bg-white text-black px-6 py-4 shadow-lg z-50 overflow-y-auto"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Close Button */}
-      <div className="flex justify-end mb-6">
-        <button
-          onClick={() => setSidebarOpen(false)}
-          className="text-black text-xl hover:text-gray-600"
-        >
-          ✕
-        </button>
-      </div>
-
-      {/* Navigation Links */}
-      <motion.div
-        variants={sidebarVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col gap-4"
-      >
-        {navigation.map((item) => (
-          <motion.div key={item.name} variants={linkVariants}>
-            {item.type === "scroll" ? (
-              <NavLink
-                to="/"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleScroll(item.targetId);
-                }}
-                className="text-lg font-medium text-gray-800 hover:text-amber-600 transition-all"
-              >
-                {item.name}
-              </NavLink>
-            ) : (
-              <NavLink
-                to={item.path}
-                onClick={() => setSidebarOpen(false)}
-                className="text-lg font-medium text-gray-800 hover:text-amber-600 transition-all"
-              >
-                {item.name}
-              </NavLink>
-            )}
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Divider */}
-      <div className="my-6 border-t border-gray-300" />
-
-      {/* Auth Buttons */}
-      <div className="flex flex-col gap-3">
-        {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="text-left text-gray-800 hover:text-red-500 text-md"
-          >
-            Logout
-          </button>
-        ) : (
-          <>
-            <button
-              onClick={() => {
-                setSidebarOpen(false);
-                setShowLoginModal(true);
-              }}
-              className="text-left text-gray-800 hover:text-blue-600 text-md"
+      {
+        sidebarOpen && (
+          <div className="fixed inset-0 z-50 flex">
+            {/* Sidebar - placed first to be on the left */}
+            <motion.div
+              initial={{ x: -300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="w-[85%] sm:w-[60%] lg:w-[35%] h-full bg-[#F5ede5]  text-black px-6 py-4 shadow-lg z-50 overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
             >
-              Login
-            </button>
-            <button
-              onClick={() => {
-                setSidebarOpen(false);
-                setShowSignupModal(true);
-              }}
-              className="text-left text-gray-800 hover:text-green-600 text-md"
-            >
-              Sign Up
-            </button>
-          </>
-        )}
-      </div>
-    </motion.div>
+              {/* Close Button */}
+              <div className="flex justify-end mb-6">
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-black text-xl hover:text-gray-600"
+                >
+                  ✕
+                </button>
+              </div>
 
-    {/* Backdrop - placed second, behind sidebar */}
-    <div
-      className="flex-1 backdrop-blur-sm bg-black/40"
-      onClick={() => setSidebarOpen(false)}
-    ></div>
-  </div>
-)}
+              {/* Navigation Links */}
+              <motion.div
+                variants={sidebarVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-4"
+              >
+                {navigation.map((item) => (
+                  <motion.div key={item.name} variants={linkVariants}>
+                    {item.type === "scroll" ? (
+                      <NavLink
+                        to="/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleScroll(item.targetId);
+                        }}
+                        className="text-lg font-medium text-gray-800 hover:text-amber-600 transition-all"
+                      >
+                        {item.name}
+                      </NavLink>
+                    ) : (
+                      <NavLink
+                        to={item.path}
+                        onClick={() => setSidebarOpen(false)}
+                        className="text-lg font-medium text-gray-800 hover:text-amber-600 transition-all"
+                      >
+                        {item.name}
+                      </NavLink>
+                    )}
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Divider */}
+              <div className="my-6 border-t border-gray-300" />
+
+              {/* Auth Buttons */}
+              <div className="flex flex-col gap-3">
+                {isLoggedIn ? (
+                  <button
+                    onClick={handleLogout}
+                    className="text-left text-gray-800 hover:text-red-500 text-md"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        setSidebarOpen(false);
+                        setShowLoginModal(true);
+                      }}
+                      className="text-left text-gray-800 hover:text-blue-600 text-md"
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSidebarOpen(false);
+                        setShowSignupModal(true);
+                      }}
+                      className="text-left text-gray-800 hover:text-green-600 text-md"
+                    >
+                      Sign Up
+                    </button>
+                  </>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Backdrop - placed second, behind sidebar */}
+            <div
+              className="flex-1 backdrop-blur-sm bg-black/40"
+              onClick={() => setSidebarOpen(false)}
+            ></div>
+          </div>
+        )
+      }
 
       {/* Modals */}
-      {showLoginModal && (
-        <LoginPage
-          onClose={() => setShowLoginModal(false)}
-          onSwitchToSignup={() => {
-            setShowLoginModal(false);
-            setTimeout(() => setShowSignupModal(true), 300);
-          }}
-          onLoginSuccess={handleLoginSuccess}
-        />
-      )}
+      {
+        showLoginModal && (
+          <LoginPage
+            onClose={() => setShowLoginModal(false)}
+            onSwitchToSignup={() => {
+              setShowLoginModal(false);
+              setTimeout(() => setShowSignupModal(true), 300);
+            }}
+            onLoginSuccess={handleLoginSuccess}
+              onLoginError={(error) => alert(`Login failed: ${error.message}`)}
 
-      {showSignupModal && (
-        <SignUpPage
-          onClose={() => setShowSignupModal(false)}
-          onSwitchToLogin={() => {
-            setShowSignupModal(false);
-            setTimeout(() => setShowLoginModal(true), 300);
-          }}
-          onSignupSuccess={handleLoginSuccess}
-        />
-      )}
+          />
+        )
+      }
+
+      {
+        showSignupModal && (
+          <SignUpPage
+            onClose={() => setShowSignupModal(false)}
+            onSwitchToLogin={() => {
+              setShowSignupModal(false);
+              setTimeout(() => setShowLoginModal(true), 300);
+            }}
+            onSignupSuccess={handleLoginSuccess}
+          />
+        )
+      }
     </>
   );
 }
-
-
