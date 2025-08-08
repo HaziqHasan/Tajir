@@ -62,24 +62,27 @@ const FeaturedProducts = () => {
                 {/* Product Image */}
                 <img
                   src={
-                    product.images?.[0]?.image_url || "https://via.placeholder.com/400"
+                    product.images?.[0]?.image_url ||
+                    "https://via.placeholder.com/400"
                   }
-                  alt={product.title}
+                  alt={product.name}
                   className="w-full h-72 object-cover rounded-xl shadow-lg"
                 />
 
                 {/* Product Content */}
                 <div className="flex flex-col items-center gap-1 px-2 text-center">
                   <h3 className="text-xl font-semibold text-gray-800">
-                    {product.title || "Untitled"}
+                    {product.name || "Untitled"}
                   </h3>
                   <span className="font-medium text-sky-500">
-                    {product.category || "Product"}
+                    {product.category_name || "Product"}
                   </span>
                   <span className="flex gap-2 font-medium text-gray-800">
                     <span>₹{product.price || "0"}</span>
                     <span>·</span>
-                    <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
+                    <span>
+                      {new Date(product.created_at).getFullYear() || "2025"}
+                    </span>
                   </span>
                   <p className="text-sm text-black mt-1 line-clamp-2">
                     {product.description || "No description available."}
@@ -95,7 +98,6 @@ const FeaturedProducts = () => {
                   </button>
                 </div>
               </div>
-
             ))}
           </div>
 

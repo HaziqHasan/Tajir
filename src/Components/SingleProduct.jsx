@@ -90,9 +90,7 @@ export default function SingleProduct() {
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             {product.name}
           </h2>
-          <p className="text-gray-800 mb-4 text-sm">
-            Category: #{product.category}
-          </p>
+          <p className="font-medium text-sky-500">{product.category_name}</p>
           <p className="text-black text-lg mb-4">{product.description}</p>
           <div className="flex items-center gap-4 mb-4">
             <span className="text-2xl font-bold text-green-600">

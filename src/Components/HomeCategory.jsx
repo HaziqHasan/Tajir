@@ -15,7 +15,9 @@ export default function HomeCategory() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}api/categories/`);
+        const response = await axios.get(
+          `${API_BASE_URL}api/category/with-products/`
+        );
         setProducts(response.data);
       } catch (error) {
         console.error("Failed to load products", error);
@@ -80,7 +82,7 @@ export default function HomeCategory() {
                 >
                   <div className="relative overflow-hidden rounded-xl">
                     <img
-                      src={product.images["small"]}
+                      src={product.image_url}
                       alt={product.name}
                       className="w-full h-40 object-cover mb-2 rounded-lg shadow-md"
                     />
