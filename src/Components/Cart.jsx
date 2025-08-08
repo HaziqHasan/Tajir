@@ -47,7 +47,7 @@ function CardContent({ children, className = "" }) {
 }
 
 function CartPage() {
-  const { cart, updateQuantity, removeItem } = useCart();
+  const { cart, updateQuantity, removeItem, addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const subtotal = cart.reduce(
@@ -89,7 +89,7 @@ function CartPage() {
               Looks like you haven’t added anything yet. Explore our handmade
               art collection!
             </p>
-            <Button className="mt-6" onClick={navigate("/productlist")}>
+            <Button className="mt-6" onClick={() => navigate("/productlist")}>
               Browse Products
             </Button>
           </div>
