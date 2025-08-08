@@ -11,8 +11,7 @@ const Home = () => {
   const [slides, setSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [mostSelling, setMostSelling] = useState([]);
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSlides = async () => {
@@ -112,7 +111,7 @@ const Home = () => {
             <div key={index} className="w-full h-[90vh] relative px-2 lg:pt-20">
               <motion.img
                 src={slide.images?.[0]?.image_url || "/placeholder.png"}
-                alt={slide.title}
+                alt={slide.name}
                 className="w-full h-full object-cover rounded-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -125,7 +124,7 @@ const Home = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {slide.title}
+                  {slide.name}
                 </motion.h2>
                 <motion.p
                   className="text-white sm:text-lg italic"
@@ -143,57 +142,65 @@ const Home = () => {
 
       {/* Text Below Images */}
       <div className="max-w-5xl mx-auto py-10 px-4 text-center">
-        <h3 className="text-2xl font-semibold text-black mb-4">Discover the World of Arts & Crafts</h3>
+        <h3 className="text-2xl font-semibold text-black mb-4">
+          Discover the World of Arts & Crafts
+        </h3>
         <p className="text-black mb-2 text-xl">
-          Our handmade collection is inspired by the beauty of tradition and the creativity of modern design.
+          Our handmade collection is inspired by the beauty of tradition and the
+          creativity of modern design.
         </p>
         <p className="text-black mb-2 text-xl">
-          Every piece tells a story — crafted with passion, precision, and purpose.
+          Every piece tells a story — crafted with passion, precision, and
+          purpose.
         </p>
         <p className="text-black text-xl">
-          Explore a range of unique wall art, calligraphy, and custom showpieces.
+          Explore a range of unique wall art, calligraphy, and custom
+          showpieces.
         </p>
-
       </div>
 
       {/* Most Selling Products Section */}
       <div className="max-w-7xl mx-auto px-4 pb-14">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-black">Most Selling Products</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-black">
+          Most Selling Products
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6">
           {mostSelling.map((product) => (
             <div
               key={product.id}
-               onClick={() => navigate(`/productpage/${product.id}`)}
+              onClick={() => navigate(`/productpage/${product.id}`)}
               className="bg-white shadow-md rounded-xl overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform"
             >
               <img
                 src={product.images?.[0]?.image_url || "/placeholder.jpg"}
-                alt={product.title}
+                alt={product.name}
                 className="w-full h-64 object-cover"
               />
               <div className="flex flex-col items-center gap-1 px-2 text-center">
-                  <h3 className="text-xl font-semibold text-black">
-                    {product.title || "Untitled"}
-                  </h3>
-                  
-                  <span className="flex gap-2 font-medium text-gray-800">
-                    <span>₹{product.price || "0"}</span>
-                    <span>·</span>
-                    <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
+                <h3 className="text-xl font-semibold text-black">
+                  {product.name || "Untitled"}
+                </h3>
+
+                <span className="flex gap-2 font-medium text-gray-800">
+                  <span>₹{product.price || "0"}</span>
+                  <span>·</span>
+                  <span>
+                    {new Date(product.created_at).getFullYear() || "2025"}
                   </span>
-                  <p className="text-sm text-black mt-1 line-clamp-2">
-                    {product.description || "No description available."}
-                  </p>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/productpage/${product.id}`);
-                    }}
-                    className="mb-2 bg-[#F5ede5]  text-black px-4 py-1 rounded-lg hover:bg-[#F5ede5] transition-all"
-                  >
-                    View
-                  </button>
-                </div>
+                </span>
+                <p className="text-sm text-black mt-1 line-clamp-2">
+                  {product.description || "No description available."}
+                </p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/productpage/${product.id}`);
+                  }}
+                  className="mb-2 bg-[#F5ede5]  text-black px-4 py-1 rounded-lg hover:bg-[#F5ede5] transition-all"
+                >
+                  View
+                </button>
+              </div>
             </div>
           ))}
         </div>
