@@ -33,6 +33,8 @@ export default function AllProducts() {
         const filtered = response.data.filter(
           (product) => product.category === parseInt(categoryId)
         );
+        console.log("fitlered", filtered);
+
         setProducts(filtered);
       } catch (err) {
         setError("Failed to load products");
@@ -48,51 +50,91 @@ export default function AllProducts() {
 
   return (
     <div className="pt-20 min-h-screen bg-gray-50 px-4 py-10">
-
-
       {products.length === 0 ? (
         <p className="text-center text-gray-400">No products found.</p>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 "
           variants={containerVariants}
           initial="hidden"
           animate="show"
         >
-          {products.map((product) => (
-            <motion.div
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {products.map((product) => (
+              <motion.div
+                key={product.id}
+                variants={cardVariants}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate(`/productpage/${product.id}`)}
+              >
+                <div
+                  key={product.id}
+                  onClick={() => navigate(`/productpage/${product.id}`)}
+                  className="flex flex-col items-center gap-4 p-4 rounded-2xl bg-white shadow-md cursor-pointer transition-transform hover:scale-[1.03]"
+                >
+                  {/* Product Image */}
+                  <img
+                    src={
+                      product.images?.[0]?.image_url ||
+                      "https://via.placeholder.com/400"
+                    }
+                    alt={product.name}
+                    className="w-full h-72 object-cover rounded-xl shadow-lg"
+                  />
+
+                  {/* Product Content */}
+                  <div className="flex flex-col items-center gap-1 px-2 text-center">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      {product.name || "Untitled"}
+                    </h3>
+
+                    <span className="flex gap-2 font-medium text-gray-800">
+                      <span>₹{product.price || "0"}</span>
+                      <span>·</span>
+                      <span>
+                        {new Date(product.created_at).getFullYear() || "2025"}
+                      </span>
+                    </span>
+                    <p className="text-sm text-black mt-1 line-clamp-2">
+                      {product.description || "No description available."}
+                    </p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/productpage/${product.id}`);
+                      }}
+                      className="mt-3 bg-[#F5ede5]  text-black px-4 py-1 rounded-lg hover:bg-[#F5ede5] transition-all"
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+{
+  /* 
+<motion.div
               key={product.id}
               variants={cardVariants}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(`/productpage/${product.id}`)}
               className="flex flex-col items-center gap-6 p-7 md:flex-row md:gap-8 rounded-2xl bg-white shadow-md cursor-pointer transition-transform"
-            >
-              <div>
-                <img
-                  src={product.images[0]?.image_url || "/placeholder.jpg"}
-                  alt={product.name}
-                  className="w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 shadow-xl rounded-md object-cover"
-                />
-              </div>
+            >*/
+}
 
-              <div className="flex flex-col items-center md:items-start gap-2">
-                <span className="text-2xl font-medium text-black">{product.name}</span>
-                <span className="font-medium text-sky-500">{product.category || "Product"}</span>
-                <span className="flex gap-2 font-medium text-gray-800 dark:text-gray-400">
-                  <span>₹{product.price}</span>
-                  <span>·</span>
-                  <span>{new Date(product.created_at).getFullYear() || "2025"}</span>
-                </span>
-                <p className="text-sm text-gray-800 mt-2 line-clamp-2 text-center md:text-left">
-                  {product.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-
-        </motion.div>
-      )}
-    </div>
-  );
+{
+  /* <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 "
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        > */
 }

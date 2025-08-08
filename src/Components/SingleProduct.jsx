@@ -80,6 +80,7 @@ export default function SingleProduct() {
           </Swiper>
         </div>
 
+
         {/* Right: Info & Cart */}
         <div className="w-full md:w-1/2 flex flex-col justify-end space-y-6 mt-8 md:mt-0">
           <div>
@@ -95,6 +96,7 @@ export default function SingleProduct() {
 
           <div className="flex items-center gap-6 mt-4">
             <span className="text-3xl font-bold text-green-600">₹{product.price}</span>
+
 
           </div>
 
