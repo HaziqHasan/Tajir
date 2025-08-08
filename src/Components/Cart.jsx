@@ -47,6 +47,8 @@ function CardContent({ children, className = "" }) {
   return <div className={`p-4 ${className}`}>{children}</div>;
 }
 
+// ...imports and helper components remain same
+
 function CartPage() {
   const { cart, updateQuantity, removeItem, addToCart } = useCart();
   const [products, setProducts] = useState([]);
@@ -75,15 +77,10 @@ function CartPage() {
       <div className="max-w-5xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
 
-        {/* Empty Cart */}
         {cart.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center py-24 px-4 bg-gray-50 rounded-lg  shadow-sm">
             <img
-
               src={carticon}
-
-             
-
               alt="Empty cart"
               className="w-40 h-40 object-contain mb-6"
             />
@@ -91,32 +88,24 @@ function CartPage() {
               Your Cart is Empty
             </h2>
             <p className="text-black max-w-md">
-
               Looks like you haven’t added anything yet. Explore our handmade art collection!
             </p>
-            <Button className="mt-6"
-              onClick={() => navigate("/productlist")}
-            >Browse Products</Button>
-
-
+            <Button className="mt-6" onClick={() => navigate("/productlist")}>
+              Browse Products
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Cart Items */}
             <div className="md:col-span-2 space-y-4">
-
-
-
               {cart.map((item) => (
                 <Card
                   key={item.id}
                   className="bg-white shadow-sm rounded-lg p-4 flex items-start gap-4"
-
-                >                <img
-
+                >
+                  <img
                     src={item.images?.[0]?.image_url || ""}
                     alt={item.title}
-                    className="w-24 h-24 object-cover rounded-lg "
+                    className="w-24 h-24 object-cover rounded-lg"
                   />
                   <div className="flex-1">
                     <h2 className="font-medium text-base mb-1">{item.name}</h2>
@@ -145,148 +134,13 @@ function CartPage() {
                       >
                         <Trash2 className="w-5 h-5 text-red-500" />
                       </Button>
-
                     </div>
                   </div>
                 </Card>
               ))}
-
-              {/* Summary Section */}
-
-              <div className="sticky top-6 h-fit">
-                <Card>
-                  <CardContent className="space-y-4 p-6">
-                    <h2 className="text-lg font-semibold  pb-2">Order Summary</h2>
-                    <div className="flex justify-between text-sm text-black">
-                      <span>Subtotal</span>
-                      <span>₹{subtotal.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm text-gray-800">
-                      <span>Shipping</span>
-                      <span>₹{shipping.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-base font-semibold  pt-2">
-                      <span>Total</span>
-                      <span>₹{total.toFixed(2)}</span>
-                    </div>
-                    <Button className="mt-2 w-full sm:w-auto bg-[#F5ede5]  text-black text-sm px-4 py-2 rounded hover:bg-gray-500"
-                      disabled={cart.length === 0}>
-                      Check Out
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
             </div>
 
-
-
-            {/* Recommended Products */}
-            <div className="">
-              <h2 className="text-xl font-semibold mb-6">Some Recommended Products</h2>
-
-              <div className="space-y-6">
-                {products.map((product) => (
-                  <div
-                    key={product.id}
-                    className="flex flex-col sm:flex-row gap-4 p-4 bg-white rounded-xl shadow hover:shadow-md transition"
-                  >
-                    {/* Product Image */}
-                    <img
-                      src={product.images?.[0]?.image_url}
-                      alt={product.title}
-                      className="w-full sm:w-40 h-40 object-cover rounded-lg"
-                    />
-
-                    {/* Product Info */}
-                    <div className="flex flex-col justify-between flex-grow">
-                      <div>
-
-                        {/* Title */}
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                          {product.title || "Untitled Product"}
-                        </h3>
-
-                        {/* Price with MRP */}
-                        <div className="text-sm mb-2">
-                          <span className="font-semibold text-gray-900 mr-2">
-                            ₹{product.price}
-                          </span>
-                          {product.mrp && (
-                            <span className="line-through text-gray-600 text-sm">
-                              ₹{product.mrp}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Add To Cart */}
-                      <button
-                        onClick={() => addToCart(product)}
-                        className="mt-2 w-full sm:w-auto bg-[#F5ede5]  text-black text-sm px-4 py-2 rounded hover:bg-gray-500"
-                      >
-                        Add To Cart
-                      </button>
-
-                    </div>
-                  </div>
-                </Card>
-              ))}
-
-              {/* Recommended Products */}
-              <div className="mt-12">
-                <h2 className="text-xl font-semibold mb-4">
-                  Some Recommended Products
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {products.map((product) => (
-                    <div
-                      key={product.id}
-                      className=" rounded-lg p-3 shadow-sm hover:shadow-md bg-white transition"
-                    >
-                      {/* Category Label */}
-                      <span className="inline-block text-xs bg-black text-white px-2 py-0.5 rounded mb-2">
-                        {product.category_name || "Product"}
-                      </span>
-
-                      {/* Product Image */}
-                      <img
-                        src={product.images?.[0]?.image_url}
-                        alt={product.title}
-                        className="w-full h-40 object-cover rounded mb-2"
-                      />
-
-                      {/* Title */}
-                      <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
-                        {product.title || "Untitled Product"}
-                      </h3>
-
-                      {/* Price with MRP */}
-                      <div className="text-sm mb-3">
-                        <span className="font-semibold text-gray-900 mr-2">
-                          ₹{product.price}
-                        </span>
-                        {product.mrp && (
-                          <span className="line-through text-gray-800 text-xs">
-                            ₹{product.mrp}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Add To Cart */}
-                      <button
-                        onClick={() => addToCart(product)}
-                        className="w-full bg-black text-white text-sm py-2 rounded hover:bg-gray-800"
-                      >
-                        Add To Cart
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Summary Section */}
+            {/* Order Summary */}
             <div className="sticky top-6 h-fit">
               <Card>
                 <CardContent className="space-y-4 p-6">
@@ -303,7 +157,7 @@ function CartPage() {
                     <span>Total</span>
                     <span>₹{total.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full mt-2" disabled={cart.length === 0}>
+                  <Button className="mt-2 w-full sm:w-auto bg-[#F5ede5]  text-black text-sm px-4 py-2 rounded hover:bg-gray-500" disabled={cart.length === 0}>
                     Check Out
                   </Button>
                 </CardContent>
@@ -311,6 +165,57 @@ function CartPage() {
             </div>
           </div>
         )}
+
+        {/* Recommended Products Section (Only Once) */}
+        <div className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Some Recommended Products</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="rounded-lg p-3 shadow-sm hover:shadow-md bg-white transition"
+              >
+                {/* Category Label */}
+                <span className="inline-block text-xs bg-black text-white px-2 py-0.5 rounded mb-2">
+                  {product.category_name || "Product"}
+                </span>
+
+                {/* Product Image */}
+                <img
+                  src={product.images?.[0]?.image_url}
+                  alt={product.title}
+                  className="w-full h-40 object-cover rounded mb-2"
+                />
+
+                {/* Title */}
+                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                  {product.title || "Untitled Product"}
+                </h3>
+
+                {/* Price with MRP */}
+                <div className="text-sm mb-3">
+                  <span className="font-semibold text-gray-900 mr-2">
+                    ₹{product.price}
+                  </span>
+                  {product.mrp && (
+                    <span className="line-through text-gray-800 text-xs">
+                      ₹{product.mrp}
+                    </span>
+                  )}
+                </div>
+
+                {/* Add To Cart */}
+                <button
+                  onClick={() => addToCart(product)}
+                  className="w-full bg-black text-white text-sm py-2 rounded hover:bg-gray-800"
+                >
+                  Add To Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
