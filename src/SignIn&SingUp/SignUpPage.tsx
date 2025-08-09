@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import API_BASE_URL from "../Api/Api";
 import { motion, AnimatePresence } from "framer-motion";
+import { registerUser, loginUser } from "../services/authService";
 
 interface SignUpPageProps {
   onClose?: () => void;
@@ -34,7 +33,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
 
     setLoading(true);
     try {
-      await axios.post(`${API_BASE_URL}api/register/`, {
+      await registerUser({
         first_name: firstName,
         last_name: lastName,
         email,
@@ -43,10 +42,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
         role: 5,
       });
 
-      const loginRes = await axios.post(`${API_BASE_URL}api/login/`, {
-        email,
-        password,
-      });
+      const loginRes = await loginUser({ email, password });
 
       localStorage.setItem("accessToken", loginRes.data.access);
       localStorage.setItem("refreshToken", loginRes.data.refresh);
@@ -54,7 +50,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
       if (typeof onClose === "function") onClose();
     } catch (error: any) {
       console.error("Signup Error →", error.response?.data || error.message);
-      alert("Sign up failed ❌");
+      alert(error.response?.data?.detail || "Sign up failed ❌");
     } finally {
       setLoading(false);
     }
@@ -96,7 +92,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+                className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none"
               />
               <input
                 type="text"
@@ -104,7 +100,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none  "
+                className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none"
               />
             </div>
 
@@ -114,7 +110,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none"
             />
             <input
               type="tel"
@@ -122,7 +118,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none"
             />
             <input
               type="password"
@@ -130,7 +126,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none"
             />
             <input
               type="password"
@@ -138,7 +134,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none    "
+              className="w-full px-3 py-2 border border-[#c3a27d] shadow-inner rounded text-sm text-[#1f1f1f] bg-white focus:outline-none"
             />
 
             <button

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import API_BASE_URL from "../Api/Api";
-import SignUpPage from "./SignUpPage";
+import apiClient from "../services/apiClient";
+import { loginUser } from "../services/authService";
 
 interface CustomJwtPayload {
   role: "admin" | "vendor" | "customer";
@@ -23,12 +22,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose, onSwitchToSignup }) => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please enter both email and password");
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await axios.post(`${API_BASE_URL}api/login/`, {
-        email,
-        password,
-      });
+      const response = await loginUser({ email, password });
 
       const { access, refresh } = response.data;
       localStorage.setItem("accessToken", access);
@@ -44,7 +45,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose, onSwitchToSignup }) => {
       else navigate("/");
     } catch (err: any) {
       console.error("Login failed:", err.response?.data || err.message);
-      alert("Login failed ❌");
+      alert(err.response?.data?.detail || "Login failed ❌");
     } finally {
       setLoading(false);
     }
@@ -73,7 +74,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose, onSwitchToSignup }) => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-[#c3a27d] rounded text-sm focus:outline-none  "
+            className="w-full px-3 py-2 border border-[#c3a27d] rounded text-sm focus:outline-none"
           />
           <div className="flex justify-between items-center text-sm">
             <label className="flex items-center gap-1">
@@ -93,7 +94,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose, onSwitchToSignup }) => {
           <button
             onClick={handleLogin}
             disabled={loading}
-            className="bg-black text-white px-6 py-2 rounded  hover:bg-[#f5ede5] hover:text-black"
+            className="bg-black text-white px-6 py-2 rounded hover:bg-[#f5ede5] hover:text-black"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
