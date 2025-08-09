@@ -15,7 +15,7 @@ export default function AllProducts() {
     isError,
   } = useQuery({
     queryKey: ["products"],
-    queryFn: getProducts(),
+    queryFn: () => getProducts(),
     staleTime: 0, // hamesha stale
     cacheTime: 0, // cache store na kare
     refetchOnWindowFocus: true, // window refocus par refetch kare

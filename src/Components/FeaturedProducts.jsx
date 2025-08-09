@@ -1,65 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import API_BASE_URL from "../Api/Api";
+import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { getProducts } from "../services/productService"; // centralized API
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
 const FeaturedProducts = () => {
-  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
+  // Trigger animation when in view
   useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
+    if (inView) controls.start("visible");
   }, [inView, controls]);
 
-  useEffect(() => {
-    const fetchFeatured = async () => {
-      try {
-        const res = await axios.get(`${API_BASE_URL}api/products/`);
-        setProducts(res.data.slice(0, 3));
-      } catch (err) {
-        console.error("Error fetching featured products:", err);
-      }
-    };
-    fetchFeatured();
-  }, []);
+  // Fetch only 3 products
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["featuredProducts"],
+    queryFn: () => getProducts(3),
+    cacheTime: import.meta.env.MODE === "production" ? 0 : 5 * 60 * 1000, // disable cache in prod
+    staleTime: 0,
+  });
 
   return (
     <div className="bg-white py-12 px-4 md:px-10">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>Featured Products - New Arrivals</title>
+        <meta
+          name="description"
+          content="Discover our new arrivals and most demanded products in our featured collection."
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
+
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-black">
         New Arrivals And Demanding
       </h2>
 
-      {products.length === 0 ? (
+      {isLoading ? (
+        <p className="text-center text-gray-400">Loading products...</p>
+      ) : isError ? (
+        <p className="text-center text-red-500">Failed to load products.</p>
+      ) : products.length === 0 ? (
         <p className="text-center text-gray-400">No products found.</p>
       ) : (
         <>
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          <div
+            ref={ref}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 max-w-7xl mx-auto"
+          >
             {products.map((product) => (
-              <div
+              <motion.div
                 key={product.id}
+                variants={cardVariants}
+                initial="hidden"
+                animate={controls}
                 onClick={() => navigate(`/productpage/${product.id}`)}
                 className="flex flex-col items-center gap-4 p-4 rounded-2xl bg-white shadow-md cursor-pointer transition-transform hover:scale-[1.03]"
               >
-                {/* Product Image */}
                 <img
                   src={
                     product.images?.[0]?.image_url ||
@@ -67,9 +82,9 @@ const FeaturedProducts = () => {
                   }
                   alt={product.name}
                   className="w-full h-72 object-cover rounded-xl shadow-lg"
+                  loading="lazy" // SEO + performance
                 />
 
-                {/* Product Content */}
                 <div className="flex flex-col items-center gap-1 px-2 text-center">
                   <h3 className="text-xl font-semibold text-gray-800">
                     {product.name || "Untitled"}
@@ -97,7 +112,7 @@ const FeaturedProducts = () => {
                     View
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -105,7 +120,7 @@ const FeaturedProducts = () => {
           <div className="mt-10 flex justify-center">
             <button
               onClick={() => navigate("/productlist")}
-              className="px-6 py-2 text-sm font-medium bg-[#F5ede5]  text-black  rounded-md hover:bg-white hover:text-black transition-all"
+              className="px-6 py-2 text-sm font-medium bg-[#F5ede5] text-black rounded-md hover:bg-white hover:text-black transition-all"
             >
               View All Products
             </button>
