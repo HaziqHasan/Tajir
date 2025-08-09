@@ -3,10 +3,8 @@ import axios from "axios";
 // Axios instance create
 const apiClient = axios.create({
   baseURL:
-    process.env.REACT_APP_API_BASE_URL || "https://tajir-back.onrender.com/",
-  headers: {
-    "Content-Type": "application/json",
-  },
+    import.meta.env.VITE_API_BASE_URL || "https://tajir-back.onrender.com/",
+  headers: { "Content-Type": "application/json" },
 });
 
 // Request Interceptor → Token auto attach
