@@ -14,6 +14,7 @@ import SingleProduct from "./Components/SingleProduct";
 import ProductList from "./Components/ProductList";
 import FeaturedProducts from "./Components/FeaturedProducts";
 import { CartProvider } from "./context/CartContext";
+import ContactPage from "./Components/Contact";
 
 function App() {
   const location = useLocation();
@@ -46,6 +47,9 @@ function App() {
 
         <Route path="/unauthorized" element={<div>🚫 Unauthorized</div>} />
         <Route path="*" element={<Navigate to="/" />} />
+
+{/* Add Contact Page Route */}
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </CartProvider>
   );
